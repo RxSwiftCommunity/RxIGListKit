@@ -1,0 +1,30 @@
+{
+  "name": "RxIGListKit",
+  "version": "0.1.0",
+  "summary": "A short description of RxIGListKit.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Bruce-pac/RxIGListKit",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Bruce-pac": "guxinye@dinghaotech.com"
+  },
+  "source": {
+    "git": "https://github.com/Bruce-pac/RxIGListKit.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "RxIGListKit/Classes/**/*",
+  "dependencies": {
+    "RxSwift": [
+
+    ],
+    "IGListKit": [
+
+    ]
+  }
+}

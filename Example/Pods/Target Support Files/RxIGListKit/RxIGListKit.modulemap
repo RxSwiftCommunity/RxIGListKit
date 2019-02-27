@@ -1,0 +1,6 @@
+framework module RxIGListKit {
+  umbrella header "RxIGListKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

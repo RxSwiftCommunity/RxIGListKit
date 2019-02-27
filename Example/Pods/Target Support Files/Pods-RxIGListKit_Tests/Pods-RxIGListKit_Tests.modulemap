@@ -1,0 +1,6 @@
+framework module Pods_RxIGListKit_Tests {
+  umbrella header "Pods-RxIGListKit_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}
