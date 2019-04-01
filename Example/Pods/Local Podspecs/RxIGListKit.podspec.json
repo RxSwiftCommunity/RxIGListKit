@@ -20,7 +20,7 @@
   },
   "source_files": "RxIGListKit/Classes/**/*",
   "dependencies": {
-    "RxSwift": [
+    "RxCocoa": [
 
     ],
     "IGListKit": [

@@ -15,6 +15,15 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		6F74EBFB4EE28130A371F329 /* Pods_RxIGListKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7B474E1C8814C1B7D62E2A6 /* Pods_RxIGListKit_Tests.framework */; };
+		842F4851224FBA2700719FC9 /* FeedSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F4850224FBA2700719FC9 /* FeedSectionController.swift */; };
+		842F4853224FBA4F00719FC9 /* CenterItemSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F4852224FBA4F00719FC9 /* CenterItemSectionController.swift */; };
+		842F4855224FBCE800719FC9 /* MultiSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F4854224FBCE800719FC9 /* MultiSectionViewController.swift */; };
+		84804A88224923BF000E26F4 /* CenterLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84804A86224923BF000E26F4 /* CenterLabelCell.swift */; };
+		84804A89224923BF000E26F4 /* CenterLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84804A87224923BF000E26F4 /* CenterLabelCell.xib */; };
+		84804A8B22492414000E26F4 /* CenterItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84804A8A22492414000E26F4 /* CenterItem.swift */; };
+		84FA66702247CF1600BB0B68 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FA666F2247CF1600BB0B68 /* Feed.swift */; };
+		84FA66732247D47100BB0B68 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FA66712247D47100BB0B68 /* FeedCell.swift */; };
+		84FA66742247D47100BB0B68 /* FeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FA66722247D47100BB0B68 /* FeedCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,11 +51,20 @@
 		607FACE51AFB9204008FA782 /* RxIGListKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RxIGListKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		84D16942D43A4E79C666B015 /* RxIGListKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = RxIGListKit.podspec; path = ../RxIGListKit.podspec; sourceTree = "<group>"; };
+		842F4850224FBA2700719FC9 /* FeedSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSectionController.swift; sourceTree = "<group>"; };
+		842F4852224FBA4F00719FC9 /* CenterItemSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterItemSectionController.swift; sourceTree = "<group>"; };
+		842F4854224FBCE800719FC9 /* MultiSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSectionViewController.swift; sourceTree = "<group>"; };
+		84804A86224923BF000E26F4 /* CenterLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterLabelCell.swift; sourceTree = "<group>"; };
+		84804A87224923BF000E26F4 /* CenterLabelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CenterLabelCell.xib; sourceTree = "<group>"; };
+		84804A8A22492414000E26F4 /* CenterItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterItem.swift; sourceTree = "<group>"; };
+		84D16942D43A4E79C666B015 /* RxIGListKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RxIGListKit.podspec; path = ../RxIGListKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		84FA666F2247CF1600BB0B68 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		84FA66712247D47100BB0B68 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		84FA66722247D47100BB0B68 /* FeedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedCell.xib; sourceTree = "<group>"; };
 		B1D0884007A8C93E1894F8E0 /* Pods-RxIGListKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxIGListKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxIGListKit_Tests/Pods-RxIGListKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		C7B474E1C8814C1B7D62E2A6 /* Pods_RxIGListKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxIGListKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D5AED3F0B5314063D66922BC /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		DC7324895DF4010C558619A5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		D5AED3F0B5314063D66922BC /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		DC7324895DF4010C558619A5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,10 +122,19 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				842F4854224FBCE800719FC9 /* MultiSectionViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				84FA666F2247CF1600BB0B68 /* Feed.swift */,
+				84FA66712247D47100BB0B68 /* FeedCell.swift */,
+				84FA66722247D47100BB0B68 /* FeedCell.xib */,
+				84804A86224923BF000E26F4 /* CenterLabelCell.swift */,
+				84804A87224923BF000E26F4 /* CenterLabelCell.xib */,
+				84804A8A22492414000E26F4 /* CenterItem.swift */,
+				842F4850224FBA2700719FC9 /* FeedSectionController.swift */,
+				842F4852224FBA4F00719FC9 /* CenterItemSectionController.swift */,
 			);
 			name = "Example for RxIGListKit";
 			path = RxIGListKit;
@@ -207,23 +234,25 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
+						DevelopmentTeam = NS27ZB8WPD;
+						LastSwiftMigration = 1020;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
+						DevelopmentTeam = NS27ZB8WPD;
+						LastSwiftMigration = 1020;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
 				};
 			};
 			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "RxIGListKit" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -246,6 +275,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
+				84FA66742247D47100BB0B68 /* FeedCell.xib in Resources */,
+				84804A89224923BF000E26F4 /* CenterLabelCell.xib in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
@@ -269,18 +300,26 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-RxIGListKit_Example/Pods-RxIGListKit_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-RxIGListKit_Example/Pods-RxIGListKit_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxIGListKit/RxIGListKit.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxIGListKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RxIGListKit_Example/Pods-RxIGListKit_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RxIGListKit_Example/Pods-RxIGListKit_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8044C4FC313B1BD15F6A6D5E /* [CP] Check Pods Manifest.lock */ = {
@@ -335,7 +374,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				842F4851224FBA2700719FC9 /* FeedSectionController.swift in Sources */,
+				84FA66732247D47100BB0B68 /* FeedCell.swift in Sources */,
+				842F4855224FBCE800719FC9 /* MultiSectionViewController.swift in Sources */,
+				84804A88224923BF000E26F4 /* CenterLabelCell.swift in Sources */,
+				84804A8B22492414000E26F4 /* CenterItem.swift in Sources */,
+				84FA66702247CF1600BB0B68 /* Feed.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				842F4853224FBA4F00719FC9 /* CenterItemSectionController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +427,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -389,12 +436,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -434,6 +483,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -442,12 +492,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -481,13 +533,13 @@
 			baseConfigurationReference = 45BA07AF27EAEBFB31D84918 /* Pods-RxIGListKit_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = NS27ZB8WPD;
 				INFOPLIST_FILE = RxIGListKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -496,13 +548,13 @@
 			baseConfigurationReference = 0E2A00BDCABBD11829BB5BD4 /* Pods-RxIGListKit_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = NS27ZB8WPD;
 				INFOPLIST_FILE = RxIGListKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -510,6 +562,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B1D0884007A8C93E1894F8E0 /* Pods-RxIGListKit_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = NS27ZB8WPD;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -522,8 +575,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RxIGListKit_Example.app/RxIGListKit_Example";
 			};
 			name = Debug;
@@ -532,6 +584,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1E0C94DF3469DA7D211A3E14 /* Pods-RxIGListKit_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = NS27ZB8WPD;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -540,8 +593,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RxIGListKit_Example.app/RxIGListKit_Example";
 			};
 			name = Release;
