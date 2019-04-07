@@ -9,27 +9,23 @@ import Foundation
 import IGListKit
 import RxSwift
 
-public typealias SectionModelDiffable = SectionModelType & ListDiffable
+public typealias EmptyViewProvider = (ListAdapter) -> UIView?
 
-public protocol RxListAdapterDataSourceType {
-    associatedtype Element
-    func listAdapter(_ adapter: ListAdapter, observedEvent: Event<Element>)
-}
-
-public final class RxListAdapterDataSource<E: SectionModelType>: NSObject, ListAdapterDataSource {
+public class RxListAdapterDataSource<E: SectionModelType>: NSObject, RxListAdapterDataSourceType, ListAdapterDataSource {
     public typealias Element = [E]
     var objects: Element = []
 
     public typealias SectionControllerProvider = (ListAdapter, E) -> ListSectionController
-    public typealias EmptyViewProvider = (ListAdapter) -> UIView?
     let sectionControllerProvider: SectionControllerProvider
     let emptyViewProvider: EmptyViewProvider?
 
     public init(sectionControllerProvider: @escaping SectionControllerProvider,
-                emptyViewProvider: EmptyViewProvider?) {
+                emptyViewProvider: EmptyViewProvider? = nil) {
         self.sectionControllerProvider = sectionControllerProvider
         self.emptyViewProvider = emptyViewProvider
     }
+
+    // MARK: ListAdapterDataSource
 
     public func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         return objects.map { $0.object }
@@ -49,9 +45,9 @@ public final class RxListAdapterDataSource<E: SectionModelType>: NSObject, ListA
     public func emptyView(for listAdapter: ListAdapter) -> UIView? {
         return emptyViewProvider?(listAdapter)
     }
-}
 
-extension RxListAdapterDataSource: RxListAdapterDataSourceType {
+    // MARK: RxListAdapterDataSourceType
+
     public func listAdapter(_ adapter: ListAdapter, observedEvent: Event<Element>) {
         switch observedEvent {
         case .next(let e):

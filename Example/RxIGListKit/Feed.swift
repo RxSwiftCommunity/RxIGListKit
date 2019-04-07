@@ -12,9 +12,6 @@ import RxIGListKit
 
 class Feed: SectionModelDiffable {
 
-    var object: Feed {
-        return self
-    }
     typealias ObjectType = Feed
 
     func diffIdentifier() -> NSObjectProtocol {

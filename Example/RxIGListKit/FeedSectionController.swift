@@ -31,4 +31,12 @@ class FeedSectionController: ListSectionController {
     override func didUpdate(to object: Any) {
         self.object = object as? Feed
     }
+
+    override func didSelectItem(at index: Int) {
+        print("didSelectItem at \(index)")
+    }
+
+    override func canMoveItem(at index: Int) -> Bool {
+        return true
+    }
 }
