@@ -4,12 +4,15 @@ PODS:
   - IGListKit/Default (3.4.0):
     - IGListKit/Diffing
   - IGListKit/Diffing (3.4.0)
-  - RxCocoa (4.5.0):
-    - RxSwift (>= 4.4.2, ~> 4.4)
+  - RxCocoa (5.0.0):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
   - RxIGListKit (0.1.0):
     - IGListKit
     - RxCocoa
-  - RxSwift (4.5.0)
+  - RxRelay (5.0.0):
+    - RxSwift (~> 5)
+  - RxSwift (5.0.0)
 
 DEPENDENCIES:
   - RxIGListKit (from `../`)
@@ -18,6 +21,7 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - IGListKit
     - RxCocoa
+    - RxRelay
     - RxSwift
 
 EXTERNAL SOURCES:
@@ -26,9 +30,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   IGListKit: 7a5d788e9fb746bcd402baa8e8b24bc3bd2a5a07
-  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
+  RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
   RxIGListKit: e9b2ceb1e41c2f896b98c626f9fd897a06212a16
-  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
+  RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
+  RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
 
 PODFILE CHECKSUM: 865b47b44d9402cd7083dc5229c66985a8abfcb2
 
