@@ -43,11 +43,10 @@ class RxListAdapterSingleSectionDataSourceSequenceWrapper<S: Sequence, Cell: UIC
             print(observedEvent)
         }
     }
-
 }
 
 protocol RxListSingleSectionControllerDelegate: AnyObject {
-    associatedtype E: ListDiffable;
+    associatedtype E: ListDiffable
     func didSelect(_ sectionController: ListSingleSectionController, with object: E)
     func didDeselect(_ sectionController: ListSingleSectionController, with object: E)
 }
@@ -67,8 +66,8 @@ class RxListAdapterSingleSectionDataSource<E: ListDiffable, Cell: UICollectionVi
     let emptyViewProvider: EmptyViewProvider?
 
     init(dequeueWay: CellDequeueWay,
-                                     configureBlock: @escaping RxListSingleSectionCellConfigureBlock<E, Cell>,
-                                     sizeBlock: @escaping RxListSingleSectionCellSizeBlock<E>,
+         configureBlock: @escaping RxListSingleSectionCellConfigureBlock<E, Cell>,
+         sizeBlock: @escaping RxListSingleSectionCellSizeBlock<E>,
          emptyViewProvider: EmptyViewProvider? = nil) {
         self.dequeueWay = dequeueWay
         self.configureBlock = configureBlock
@@ -87,31 +86,31 @@ class RxListAdapterSingleSectionDataSource<E: ListDiffable, Cell: UICollectionVi
     public override func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
         switch dequeueWay {
         case .cellClass(let cellClass):
-            let sc = ListSingleSectionController(cellClass: cellClass, configureBlock: { (obj, cell) in
+            let sc = ListSingleSectionController(cellClass: cellClass, configureBlock: { obj, cell in
                 self.configureBlock(obj as!
                     E, cell as! Cell)
             }, sizeBlock: { (obj, context) -> CGSize in
                 self.sizeBlock(obj as! E, context)
             })
-            sc.selectionDelegate = self.delegate
+            sc.selectionDelegate = delegate
             return sc
         case .nib(let name, let bundle):
-            let sc = ListSingleSectionController(nibName: name, bundle: bundle, configureBlock: { (obj, cell) in
+            let sc = ListSingleSectionController(nibName: name, bundle: bundle, configureBlock: { obj, cell in
                 self.configureBlock(obj as!
                     E, cell as! Cell)
             }, sizeBlock: { (obj, context) -> CGSize in
                 self.sizeBlock(obj as! E, context)
             })
-            sc.selectionDelegate = self.delegate
+            sc.selectionDelegate = delegate
             return sc
         case .storyboard(let id):
-            let sc = ListSingleSectionController(storyboardCellIdentifier: id, configureBlock: { (obj, cell) in
+            let sc = ListSingleSectionController(storyboardCellIdentifier: id, configureBlock: { obj, cell in
                 self.configureBlock(obj as!
                     E, cell as! Cell)
             }, sizeBlock: { (obj, context) -> CGSize in
                 self.sizeBlock(obj as! E, context)
             })
-            sc.selectionDelegate = self.delegate
+            sc.selectionDelegate = delegate
             return sc
         }
     }
@@ -119,5 +118,4 @@ class RxListAdapterSingleSectionDataSource<E: ListDiffable, Cell: UICollectionVi
     public override func emptyView(for listAdapter: ListAdapter) -> UIView? {
         return emptyViewProvider?(listAdapter)
     }
-
 }

@@ -10,10 +10,16 @@ import IGListKit
 import RxCocoa
 import RxSwift
 
-public typealias RxListSingleSectionCellConfigureBlock<E: ListDiffable, Cell: UICollectionViewCell> = (E, Cell) -> Void
-public typealias RxListSingleSectionCellSizeBlock<E: ListDiffable> = (E, ListCollectionContext?) -> CGSize
-
 extension Reactive where Base == ListAdapter {
+    /**
+     Binds sequences of elements to adapter objects using a custom reactive data used to perform the transformation.
+     In case `source` observable sequence terminates successfully, the data source will present latest element
+     until the subscription isn't disposed.
+
+     - parameter dataSource: Data source used to transform elements to adapter sections.
+     - parameter source: Observable sequence of items.
+     - returns: Disposable object that can be used to unbind.
+     */
     public func objects<DataSource: ListAdapterDataSource & RxListAdapterDataSourceType, O: ObservableType>(dataSource: DataSource) ->
         (_ source: O) -> Disposable
         where DataSource.Element == O.Element {
@@ -28,6 +34,16 @@ extension Reactive where Base == ListAdapter {
         }
     }
 
+    /// Binds sequences of elements to adapter objects using a custom reactive data used to perform the transformation for IGListSingleSectionController.
+    ///
+    /// - Parameters:
+    ///   - cellClass: Type of collection view cell.
+    ///   - selectionDelegate: ListSingleSectionControllerDelegate
+    ///   - source: Observable sequence of objects.
+    ///   - configureBlock: Transform between sequence elements and view cells.
+    ///   - sizeBlock: The size for the cells.
+    ///   - emptyViewProvider: The empty view for the collection view.
+    /// - Returns: Disposable object that can be used to unbind.
     public func objects<S: Sequence, Cell: UICollectionViewCell, O: ObservableType>(cellClass: Cell.Type, selectionDelegate: ListSingleSectionControllerDelegate? = nil)
         -> (_ source: O)
         -> (_ configureBlock: @escaping RxListSingleSectionCellConfigureBlock<S.Element, Cell>)
@@ -49,33 +65,71 @@ extension Reactive where Base == ListAdapter {
         }
     }
 
+    /// Binds sequences of elements to adapter objects using a custom reactive data used to perform the transformation for IGListSingleSectionController.
+    ///
+    /// - Parameters:
+    ///   - storyboardCellIdentifier: StoryboardIdentifier used to dequeue cells.
+    ///   - cellClass: Type of collection view cell.
+    ///   - selectionDelegate: ListSingleSectionControllerDelegate
+    ///   - source: Observable sequence of objects.
+    ///   - configureBlock: Transform between sequence elements and view cells.
+    ///   - sizeBlock: The size for the cells.
+    ///   - emptyViewProvider: The empty view for the collection view.
+    /// - Returns: Disposable object that can be used to unbind.
     public func objects<S: Sequence, Cell: UICollectionViewCell, O: ObservableType>(storyboardCellIdentifier: String, cellClass: Cell.Type, selectionDelegate: ListSingleSectionControllerDelegate? = nil)
         -> (_ source: O)
         -> (_ configureBlock: @escaping RxListSingleSectionCellConfigureBlock<S.Element, Cell>)
         -> (_ sizeBlock: @escaping RxListSingleSectionCellSizeBlock<S.Element>)
         -> (_ emptyViewProvider: EmptyViewProvider?)
         -> Disposable where O.Element == S, S.Element: ListDiffable {
-            return { source in
-                { configureBlock1 in
-                    { sizeBlock in
-                        { emptyViewProvider in
-                            let dataSource = RxListAdapterSingleSectionDataSourceSequenceWrapper<S, Cell>(dequeueWay: .storyboard(id: storyboardCellIdentifier), configureBlock: { obj, cell in
-                                configureBlock1(obj, cell)
-                            }, sizeBlock: sizeBlock, emptyViewProvider: emptyViewProvider)
-                            dataSource.delegate = selectionDelegate
-                            return self.objects(dataSource: dataSource)(source)
-                        }
+        return { source in
+            { configureBlock1 in
+                { sizeBlock in
+                    { emptyViewProvider in
+                        let dataSource = RxListAdapterSingleSectionDataSourceSequenceWrapper<S, Cell>(dequeueWay: .storyboard(id: storyboardCellIdentifier), configureBlock: { obj, cell in
+                            configureBlock1(obj, cell)
+                        }, sizeBlock: sizeBlock, emptyViewProvider: emptyViewProvider)
+                        dataSource.delegate = selectionDelegate
+                        return self.objects(dataSource: dataSource)(source)
                     }
                 }
             }
+        }
     }
 
-
+    /// Binds sequences of elements to adapter objects using a custom reactive data used to perform the transformation for IGListSingleSectionController.
+    ///
+    /// - Parameters:
+    ///   - nibName: Nib name used to dequeue cells.
+    ///   - bundle: Bundle of the nib.
+    ///   - cellClass: Type of collection view cell.
+    ///   - selectionDelegate: ListSingleSectionControllerDelegate
+    ///   - source: Observable sequence of objects.
+    ///   - configureBlock: Transform between sequence elements and view cells.
+    ///   - sizeBlock: The size for the cells.
+    ///   - emptyViewProvider: The empty view for the collection view.
+    /// - Returns: Disposable object that can be used to unbind.
+    public func objects<S: Sequence, Cell: UICollectionViewCell, O: ObservableType>(nibName: String, bundle: Bundle?, cellClass: Cell.Type, selectionDelegate: ListSingleSectionControllerDelegate? = nil)
+        -> (_ source: O)
+        -> (_ configureBlock: @escaping RxListSingleSectionCellConfigureBlock<S.Element, Cell>)
+        -> (_ sizeBlock: @escaping RxListSingleSectionCellSizeBlock<S.Element>)
+        -> (_ emptyViewProvider: EmptyViewProvider?)
+        -> Disposable where O.Element == S, S.Element: ListDiffable {
+        return { source in
+            { configureBlock1 in
+                { sizeBlock in
+                    { emptyViewProvider in
+                        let dataSource = RxListAdapterSingleSectionDataSourceSequenceWrapper<S, Cell>(dequeueWay: .nib(name: nibName, bundle: bundle), configureBlock: { obj, cell in
+                            configureBlock1(obj, cell)
+                        }, sizeBlock: sizeBlock, emptyViewProvider: emptyViewProvider)
+                        dataSource.delegate = selectionDelegate
+                        return self.objects(dataSource: dataSource)(source)
+                    }
+                }
+            }
+        }
+    }
 }
-
-public typealias WillDisplayObjectEvent = (object: ListDiffable, index: NSInteger)
-public typealias DidEndDisplayingObjectEvent = (object: ListDiffable, index: NSInteger)
-public typealias MoveObjectEvent = (object: ListDiffable, from: [ListDiffable], to: [ListDiffable])
 
 extension Reactive where Base == ListAdapter {
     var delegate: DelegateProxy<ListAdapter, IGListAdapterDelegate> {
@@ -83,7 +137,7 @@ extension Reactive where Base == ListAdapter {
     }
 
     /**
-     Reactive wrapper for `delegate` message `listAdapter:(IGListAdapter *)listAdapter willDisplayObject:(id)object atIndex:(NSInteger)index`.
+     Reactive wrapper for `delegate` message `listAdapter:willDisplayObject:atIndex:`.
      */
     public var willDisplayObject: ControlEvent<WillDisplayObjectEvent> {
         let source = RxListAdapterDelegateProxy.proxy(for: base).willDisplaySubject.map { (obj, idx) -> WillDisplayObjectEvent in
@@ -93,7 +147,7 @@ extension Reactive where Base == ListAdapter {
     }
 
     /**
-     Reactive wrapper for `delegate` message `- (void)listAdapter:(IGListAdapter *)listAdapter didEndDisplayingObject:(id)object atIndex:(NSInteger)index;`.
+     Reactive wrapper for `delegate` message `listAdapter:didEndDisplayingObject:atIndex:`.
      */
     public var didEndDisplayingObject: ControlEvent<DidEndDisplayingObjectEvent> {
         let source = RxListAdapterDelegateProxy.proxy(for: base).didEndDisplayingSubject.map { (obj, idx) -> WillDisplayObjectEvent in
@@ -103,7 +157,7 @@ extension Reactive where Base == ListAdapter {
     }
 
     /**
-     Reactive wrapper for `moveDelegate` message ``.
+     Reactive wrapper for `moveDelegate` message `listAdapter:moveObject:from:to:`.
      */
     @available(iOS 9.0, *)
     public func moveObject(_ delegate: ListAdapterMoving) -> ControlEvent<MoveObjectEvent> {
@@ -117,13 +171,17 @@ extension Reactive where Base == ListAdapter {
         return ControlEvent(events: source)
     }
 
+    /**
+     Reactive wrapper for `delegate` message `collectionView(_:didSelectItemAtIndexPath:)`.
+     */
     public var itemSelected: ControlEvent<IndexPath> {
         guard let view = base.collectionView else { fatalError() }
         return view.rx.itemSelected
     }
 
-    public typealias ListWillEndDraggingEvent = (view: UICollectionView, velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
-
+    /**
+     Reactive wrapper for delegate method `scrollViewWillEndDragging(_:withVelocity:targetContentOffset:)`
+     */
     public var willEndDragging: ControlEvent<ListWillEndDraggingEvent> {
         guard let view = base.collectionView else { fatalError() }
         let source = view.rx.willEndDragging.map({ (v, targetContentOffset) -> ListWillEndDraggingEvent in

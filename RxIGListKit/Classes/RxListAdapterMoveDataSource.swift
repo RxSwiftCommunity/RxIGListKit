@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import RxSwift
 import IGListKit
+import RxSwift
 
 public protocol ListAdapterMoving: AnyObject {
     var moving: Bool { get set }
@@ -21,10 +21,9 @@ extension ListAdapterMoving {
 }
 
 public final class RxListAdapterMoveDataSource<E: SectionModelType>: RxListAdapterDataSource<E>, ListAdapterMoving {
-
     public var moving: Bool = false
 
-    override public func listAdapter(_ adapter: ListAdapter, observedEvent: Event<[E]>) {
+    public override func listAdapter(_ adapter: ListAdapter, observedEvent: Event<[E]>) {
         switch observedEvent {
         case .next(let e):
             objects = e

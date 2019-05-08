@@ -7,18 +7,17 @@
 
 import Foundation
 import IGListKit
-import RxSwift
 import RxCocoa
+import RxSwift
 
 fileprivate let listAdapterMoveDelegateNotSet = ListAdapterMoveDelegateNotSet()
 
 fileprivate final class ListAdapterMoveDelegateNotSet: NSObject, ListAdapterMoveDelegate {
-    func listAdapter(_ listAdapter: ListAdapter, move object: Any, from previousObjects: [Any], to objects: [Any]) {
-    }
+    func listAdapter(_ listAdapter: ListAdapter, move object: Any, from previousObjects: [Any], to objects: [Any]) {}
 }
 
 @available(iOS 9.0, *)
-final class RxListAdapterMoveDelegateProxy: DelegateProxy<ListAdapter, ListAdapterMoveDelegate>, DelegateProxyType, ListAdapterMoveDelegate{
+final class RxListAdapterMoveDelegateProxy: DelegateProxy<ListAdapter, ListAdapterMoveDelegate>, DelegateProxyType, ListAdapterMoveDelegate {
     static func currentDelegate(for object: ListAdapter) -> ListAdapterMoveDelegate? {
         return object.moveDelegate
     }
@@ -52,7 +51,7 @@ final class RxListAdapterMoveDelegateProxy: DelegateProxy<ListAdapter, ListAdapt
     }
 
     func listAdapter(_ listAdapter: ListAdapter, move object: Any, from previousObjects: [Any], to objects: [Any]) {
-        _moveSubject?.onNext((object,previousObjects,objects))
+        _moveSubject?.onNext((object, previousObjects, objects))
         _requiredMethodsDelegate?.listAdapter(listAdapter, move: object, from: previousObjects, to: objects)
     }
 
@@ -64,5 +63,4 @@ final class RxListAdapterMoveDelegateProxy: DelegateProxy<ListAdapter, ListAdapt
     deinit {
         _moveSubject?.onCompleted()
     }
-    
 }
