@@ -24,3 +24,24 @@ extension Int: SectionModelType {
         return self as NSNumber
     }
 }
+
+extension UInt: SectionModelType {
+    public typealias ObjectType = NSNumber
+    public var object: NSNumber {
+        return self as NSNumber
+    }
+}
+
+extension Float: SectionModelType {
+    public typealias ObjectType = NSNumber
+    public var object: NSNumber {
+        return self as NSNumber
+    }
+}
+
+extension Double: SectionModelType {
+    public typealias ObjectType = NSNumber
+    public var object: NSNumber {
+        return self as NSNumber
+    }
+}
