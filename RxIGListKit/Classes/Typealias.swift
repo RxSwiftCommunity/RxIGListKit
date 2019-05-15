@@ -2,7 +2,7 @@
 //  Typealias.swift
 //  RxIGListKit
 //
-//  Created by gxy on 2019/5/3.
+//  Created by Bruce-pac on 2019/5/3.
 //
 
 import Foundation

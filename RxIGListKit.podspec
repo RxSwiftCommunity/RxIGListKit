@@ -22,11 +22,11 @@ Pod::Spec.new do |s|
   RxIGListKit bring IGListKit into Reactive world.
                        DESC
 
-  s.homepage         = 'https://github.com/Bruce-pac/RxIGListKit'
+  s.homepage         = 'https://github.com/RxSwiftCommunity/RxIGListKit'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Bruce-pac' => 'guxinye@dinghaotech.com' }
-  s.source           = { :git => 'https://github.com/Bruce-pac/RxIGListKit.git', :tag => s.version.to_s }
+  s.author           = { 'Bruce-pac' => 'Bruce_pac312@foxmail.com' }
+  s.source           = { :git => 'https://github.com/RxSwiftCommunity/RxIGListKit.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'

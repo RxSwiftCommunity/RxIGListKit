@@ -3,7 +3,7 @@
 //  RxIGListKit
 //
 //  Created by Bruce-pac on 02/27/2019.
-//  Copyright (c) 2019 Bruce-pac. All rights reserved.
+//  Copyright © 2019 RxSwiftCommunity. All rights reserved.
 //
 
 import UIKit

@@ -2,8 +2,8 @@
 //  FeedSectionController.swift
 //  RxIGListKit_Example
 //
-//  Created by gxy on 2019/3/30.
-//  Copyright © 2019 CocoaPods. All rights reserved.
+//  Created by Bruce-pac on 2019/3/30.
+//  Copyright © 2019 RxSwiftCommunity. All rights reserved.
 //
 
 import Foundation

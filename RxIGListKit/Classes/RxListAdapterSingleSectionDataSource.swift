@@ -2,7 +2,7 @@
 //  RxListAdapterSingleSectionDataSource.swift
 //  RxIGListKit
 //
-//  Created by gxy on 2019/4/6.
+//  Created by Bruce-pac on 2019/4/6.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  IGListAdapter+Rx.swift
 //  RxIGListKit
 //
-//  Created by gxy on 2019/3/18.
+//  Created by Bruce-pac on 2019/3/18.
 //
 
 import Foundation

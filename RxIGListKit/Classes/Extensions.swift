@@ -2,7 +2,7 @@
 //  Extensions.swift
 //  RxIGListKit
 //
-//  Created by gxy on 2019/4/4.
+//  Created by Bruce-pac on 2019/4/4.
 //
 
 import Foundation

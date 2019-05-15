@@ -2,7 +2,7 @@
 //  SectionObjectType.swift
 //  RxIGListKit
 //
-//  Created by gxy on 2019/3/30.
+//  Created by Bruce-pac on 2019/3/30.
 //
 
 import Foundation

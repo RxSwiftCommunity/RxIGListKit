@@ -2,7 +2,7 @@
 //  RxListAdapterDelegateProxy.swift
 //  RxIGListKit
 //
-//  Created by gxy on 2019/4/2.
+//  Created by Bruce-pac on 2019/4/2.
 //
 
 import Foundation

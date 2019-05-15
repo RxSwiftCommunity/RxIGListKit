@@ -2,7 +2,7 @@
 //  RxListBindingSectionControllerDataSource.swift
 //  RxIGListKit
 //
-//  Created by gxy on 2019/4/7.
+//  Created by Bruce-pac on 2019/4/7.
 //
 
 import Foundation
