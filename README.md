@@ -36,7 +36,7 @@ pod 'RxIGListKit'
 For [Carthage](https://github.com/Carthage/Carthage), add the following to your `Cartfile`:
 
 ```
-github "RxIGListKit"
+github "RxSwiftCommunity/RxIGListKit" "master"
 ```
 
 ## Author
