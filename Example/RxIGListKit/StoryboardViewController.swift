@@ -72,7 +72,7 @@ final class StoryboardViewController: UIViewController, StoryboardLabelSectionCo
             sectionController.delegate = self
             return sectionController
         })
-        objectSignal.bind(to: adapter.rx.objects(dataSource: ds)).disposed(by: bag)
+        objectSignal.bind(to: adapter.rx.objects(for: ds)).disposed(by: bag)
         objectSignal.onNext(people)
     }
 

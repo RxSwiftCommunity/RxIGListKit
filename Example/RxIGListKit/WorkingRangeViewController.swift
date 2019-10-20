@@ -46,7 +46,7 @@ final class WorkingRangeViewController: UIViewController {
             return WorkingRangeSectionController()
         })
 
-        objectSignal.bind(to: adapter.rx.objects(dataSource: ds)).disposed(by: bag)
+        objectSignal.bind(to: adapter.rx.objects(for: ds)).disposed(by: bag)
 
     }
 

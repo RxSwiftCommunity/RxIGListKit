@@ -46,7 +46,7 @@ final class StackedViewController: UIViewController {
             return sectionController
         })
         let objectSignal = Observable.just(data)
-        objectSignal.bind(to: adapter.rx.objects(dataSource: ds)).disposed(by: bag)
+        objectSignal.bind(to: adapter.rx.objects(for: ds)).disposed(by: bag)
 
     }
 
