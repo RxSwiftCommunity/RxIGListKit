@@ -46,7 +46,7 @@ class NestedAdapterViewController: UIViewController {
         super.viewDidLoad()
         view.addSubview(collectionView)
         adapter.collectionView = collectionView
-        objectSignal.bind(to: adapter.rx.objects(dataSource: dataSource)).disposed(by: bag)
+        objectSignal.bind(to: adapter.rx.objects(for: dataSource)).disposed(by: bag)
         let objects = data.map { (ele) -> NestedAdapterSection in
             switch ele {
             case is String:

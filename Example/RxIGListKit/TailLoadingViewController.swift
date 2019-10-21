@@ -50,7 +50,7 @@ class TailLoadingViewController: UIViewController {
                 return LabelSectionController()
             }
         })
-        itemSignal.debug().bind(to: adapter.rx.objects(dataSource: ds)).disposed(by: bag)
+        itemSignal.debug().bind(to: adapter.rx.objects(for: ds)).disposed(by: bag)
 
         let footDrag = adapter.rx.willEndDragging.map { (view, _, offset) -> Bool in
             let distance = view.contentSize.height - (offset.pointee.y + view.bounds.height)

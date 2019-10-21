@@ -52,7 +52,7 @@ final class ReorderableViewController: UIViewController {
         let moveSignal = adapter.rx.moveObject(dataSource).map { (_, _, to) -> [String] in
             return to as! [String]
         }
-        Observable.merge(objectSignal, moveSignal).bind(to: adapter.rx.objects(dataSource: dataSource)).disposed(by: bag)
+        Observable.merge(objectSignal, moveSignal).bind(to: adapter.rx.objects(for: dataSource)).disposed(by: bag)
 
 //        if #available(iOS 9.0, *) {
 //            adapter.moveDelegate = self

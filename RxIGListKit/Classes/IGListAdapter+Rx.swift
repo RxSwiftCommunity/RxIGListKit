@@ -20,7 +20,14 @@ extension Reactive where Base == ListAdapter {
      - parameter source: Observable sequence of items.
      - returns: Disposable object that can be used to unbind.
      */
+    @available(*, deprecated, message: "It will be removed in the future.", renamed: "objects(for:)")
     public func objects<DataSource: ListAdapterDataSource & RxListAdapterDataSourceType, O: ObservableType>(dataSource: DataSource) ->
+        (_ source: O) -> Disposable
+        where DataSource.Element == O.Element {
+            return objects(for: dataSource)
+    }
+
+    public func objects<DataSource: ListAdapterDataSource & RxListAdapterDataSourceType, O: ObservableType>(for dataSource: DataSource) ->
         (_ source: O) -> Disposable
         where DataSource.Element == O.Element {
         base.dataSource = dataSource
@@ -58,7 +65,7 @@ extension Reactive where Base == ListAdapter {
                             configureBlock1(obj, cell)
                         }, sizeBlock: sizeBlock, emptyViewProvider: emptyViewProvider)
                         dataSource.delegate = selectionDelegate
-                        return self.objects(dataSource: dataSource)(source)
+                        return self.objects(for: dataSource)(source)
                     }
                 }
             }
@@ -90,7 +97,7 @@ extension Reactive where Base == ListAdapter {
                             configureBlock1(obj, cell)
                         }, sizeBlock: sizeBlock, emptyViewProvider: emptyViewProvider)
                         dataSource.delegate = selectionDelegate
-                        return self.objects(dataSource: dataSource)(source)
+                        return self.objects(for: dataSource)(source)
                     }
                 }
             }
@@ -123,7 +130,7 @@ extension Reactive where Base == ListAdapter {
                             configureBlock1(obj, cell)
                         }, sizeBlock: sizeBlock, emptyViewProvider: emptyViewProvider)
                         dataSource.delegate = selectionDelegate
-                        return self.objects(dataSource: dataSource)(source)
+                        return self.objects(for: dataSource)(source)
                     }
                 }
             }

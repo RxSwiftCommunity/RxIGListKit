@@ -81,7 +81,7 @@ class SearchViewController: UIViewController {
         let ds = RxListAdapterDataSource<NSString>(sectionControllerProvider: { (_, _) -> ListSectionController in
             LabelSectionController()
         })
-        itemSignal.bind(to: adapter.rx.objects(dataSource: ds)).disposed(by: bag)
+        itemSignal.bind(to: adapter.rx.objects(for: ds)).disposed(by: bag)
     }
 
 }

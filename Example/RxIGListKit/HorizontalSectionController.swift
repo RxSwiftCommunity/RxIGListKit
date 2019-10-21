@@ -31,7 +31,7 @@ final class HorizontalSectionController: ListSectionController {
     lazy var adapter: ListAdapter = {
         let adapter = ListAdapter(updater: ListAdapterUpdater(),
                                   viewController: self.viewController)
-        objectSignal.bind(to: adapter.rx.objects(dataSource: dataSource)).disposed(by: bag)
+        objectSignal.bind(to: adapter.rx.objects(for: dataSource)).disposed(by: bag)
         return adapter
     }()
 

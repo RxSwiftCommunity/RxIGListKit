@@ -53,7 +53,7 @@ class EmptyViewController: UIViewController {
             return self?.emptyLabel
         })
 
-        objectSignal.bind(to: adapter.rx.objects(dataSource: dataSource)).disposed(by: bag)
+        objectSignal.bind(to: adapter.rx.objects(for: dataSource)).disposed(by: bag)
 
         let addSignal = addItem.rx.tap.withLatestFrom(objectSignal).map { (old) -> [Int] in
             let count = old.count
