@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import IGListKit.IGListDiffable
+import protocol IGListDiffKit.ListDiffable
 
 public protocol SectionModelType {
     associatedtype ObjectType: ListDiffable

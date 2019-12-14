@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RxIGListKit'
-  s.version          = '1.0.1'
+  s.version          = '2.0.0'
   s.summary          = "A RxSwift wrapper for Instagram IGListKit."
 
   s.description      = <<-DESC
@@ -23,14 +23,13 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/RxSwiftCommunity/RxIGListKit.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
   s.tvos.deployment_target = '9.0'
 
   s.swift_version = '5.0'
 
   s.source_files = 'RxIGListKit/Classes/**/*'
 
-  # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'RxCocoa'
-  s.dependency 'IGListKit'
+  s.dependency 'RxCocoa', '~> 5.0.0'
+  s.dependency 'IGListKit', '~> 4.0.0'
 end
