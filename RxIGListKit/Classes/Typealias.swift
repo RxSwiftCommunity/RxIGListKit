@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import IGListKit.IGListDiffable
+import protocol IGListKit.ListCollectionContext
+import protocol IGListDiffKit.ListDiffable
 
 public typealias RxListSingleSectionCellConfigureBlock<E: ListDiffable, Cell: UICollectionViewCell> = (E, Cell) -> Void
 public typealias RxListSingleSectionCellSizeBlock<E: ListDiffable> = (E, ListCollectionContext?) -> CGSize

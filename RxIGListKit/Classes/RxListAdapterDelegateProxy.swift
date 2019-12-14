@@ -11,21 +11,21 @@ import RxCocoa
 import RxSwift
 
 extension ListAdapter: HasDelegate {
-    public typealias Delegate = IGListAdapterDelegate
+    public typealias Delegate = ListAdapterDelegate
 }
 
 fileprivate let listAdapterDelegateNotSet = ListAdapterDelegateNotSet()
 
-fileprivate final class ListAdapterDelegateNotSet: NSObject, IGListAdapterDelegate {
+fileprivate final class ListAdapterDelegateNotSet: NSObject, ListAdapterDelegate {
     func listAdapter(_ listAdapter: ListAdapter, willDisplay object: Any, at index: Int) {}
 
     func listAdapter(_ listAdapter: ListAdapter, didEndDisplaying object: Any, at index: Int) {}
 }
 
 class RxListAdapterDelegateProxy
-    : DelegateProxy<ListAdapter, IGListAdapterDelegate>,
+    : DelegateProxy<ListAdapter, ListAdapterDelegate>,
     DelegateProxyType,
-    IGListAdapterDelegate {
+ListAdapterDelegate {
     public private(set) weak var adapter: ListAdapter?
 
     init(adapter: ParentObject) {
@@ -37,7 +37,7 @@ class RxListAdapterDelegateProxy
         register { RxListAdapterDelegateProxy(adapter: $0) }
     }
 
-    private weak var _requiredMethodsDelegate: IGListAdapterDelegate? = listAdapterDelegateNotSet
+    private weak var _requiredMethodsDelegate: ListAdapterDelegate? = listAdapterDelegateNotSet
 
     private var _willDisplaySubject: PublishSubject<(Any, Int)>?
     private var _didEndDisplayingSubject: PublishSubject<(Any, Int)>?
@@ -70,7 +70,7 @@ class RxListAdapterDelegateProxy
         _requiredMethodsDelegate?.listAdapter(listAdapter, didEndDisplaying: object, at: index)
     }
 
-    override func setForwardToDelegate(_ forwardToDelegate: IGListAdapterDelegate?, retainDelegate: Bool) {
+    override func setForwardToDelegate(_ forwardToDelegate: ListAdapterDelegate?, retainDelegate: Bool) {
         _requiredMethodsDelegate = forwardToDelegate ?? listAdapterDelegateNotSet
         super.setForwardToDelegate(forwardToDelegate, retainDelegate: retainDelegate)
     }

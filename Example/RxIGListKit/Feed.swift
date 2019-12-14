@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import IGListKit.IGListDiffable
+import IGListDiffKit
 import RxIGListKit
 
 class Feed: SectionModelDiffable {
