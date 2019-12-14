@@ -139,7 +139,7 @@ extension Reactive where Base == ListAdapter {
 }
 
 extension Reactive where Base == ListAdapter {
-    var delegate: DelegateProxy<ListAdapter, IGListAdapterDelegate> {
+    var delegate: DelegateProxy<ListAdapter, ListAdapterDelegate> {
         return RxListAdapterDelegateProxy.proxy(for: base)
     }
 

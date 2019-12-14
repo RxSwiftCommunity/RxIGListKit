@@ -43,8 +43,6 @@ final class DemosViewController: UIViewController, ListAdapterDataSource {
                  controllerIdentifier: "singleSectionDemo"),
         DemoItem(name: "Working Range",
                  controllerClass: WorkingRangeViewController.self),
-        DemoItem(name: "Stacked Section Controllers",
-                 controllerClass: StackedViewController.self),
         DemoItem(name: "Calendar (auto diffing)",
                  controllerClass: CalendarViewController.self),
         DemoItem(name: "Reorder Cells",
