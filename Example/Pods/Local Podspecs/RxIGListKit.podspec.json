@@ -23,7 +23,7 @@
   "source_files": "RxIGListKit/Classes/**/*",
   "dependencies": {
     "RxCocoa": [
-      "~> 5.0.0"
+      "~> 5"
     ],
     "IGListKit": [
       "~> 4.0.0"
