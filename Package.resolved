@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "IGListKit",
+        "repositoryURL": "https://github.com/Instagram/IGListKit.git",
+        "state": {
+          "branch": null,
+          "revision": "36da20119ca70c0a8b46ef0acc93b3bcb5a9ea69",
+          "version": "4.0.0"
+        }
+      },
+      {
+        "package": "RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "7c17a6ccca06b5c107cfa4284e634562ddaf5951",
+          "version": "6.2.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
