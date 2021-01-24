@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RxIGListKit'
-  s.version          = '2.0.0'
+  s.version          = '2.0.1'
   s.summary          = "A RxSwift wrapper for Instagram IGListKit."
 
   s.description      = <<-DESC
@@ -17,7 +17,6 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = 'https://github.com/RxSwiftCommunity/RxIGListKit'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Bruce-pac' => 'Bruce_pac312@foxmail.com' }
   s.source           = { :git => 'https://github.com/RxSwiftCommunity/RxIGListKit.git', :tag => s.version.to_s }
@@ -30,6 +29,6 @@ Pod::Spec.new do |s|
 
   s.source_files = 'RxIGListKit/Classes/**/*'
 
-  s.dependency 'RxCocoa', '~> 5.0.0'
+  s.dependency 'RxCocoa', '~> 5.0'
   s.dependency 'IGListKit', '~> 4.0.0'
 end
