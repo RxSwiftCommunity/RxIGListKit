@@ -29,6 +29,6 @@ Pod::Spec.new do |s|
 
   s.source_files = 'RxIGListKit/Classes/**/*'
 
-  s.dependency 'RxCocoa', '~> 5.0'
+  s.dependency 'RxCocoa', '~> 6.0'
   s.dependency 'IGListKit', '~> 4.0.0'
 end
