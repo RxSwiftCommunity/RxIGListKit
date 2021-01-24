@@ -2761,37 +2761,6 @@
 			};
 			name = Debug;
 		};
-		5B265F2BF712754D48F29330ABA33D35 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 14E49DBB0DC38A18C22A496F99247145 /* RxIGListKit.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/RxIGListKit/RxIGListKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/RxIGListKit/RxIGListKit-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/RxIGListKit/RxIGListKit.modulemap";
-				PRODUCT_MODULE_NAME = RxIGListKit;
-				PRODUCT_NAME = RxIGListKit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		7A857C779544D8127F7070EFAB37C3D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0E3492584B0E8C958F58F7F4DFB44898 /* RxCocoa.debug.xcconfig */;
@@ -2813,6 +2782,37 @@
 				MODULEMAP_FILE = "Target Support Files/RxCocoa/RxCocoa.modulemap";
 				PRODUCT_MODULE_NAME = RxCocoa;
 				PRODUCT_NAME = RxCocoa;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.1;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8AAA7786656C4D35D21C90A662200246 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 14E49DBB0DC38A18C22A496F99247145 /* RxIGListKit.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/RxIGListKit/RxIGListKit-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/RxIGListKit/RxIGListKit-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/RxIGListKit/RxIGListKit.modulemap";
+				PRODUCT_MODULE_NAME = RxIGListKit;
+				PRODUCT_NAME = RxIGListKit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -3140,7 +3140,7 @@
 			};
 			name = Release;
 		};
-		D97EFECCDB49CD83500623599C15EA3C /* Release */ = {
+		E3057D023249C52E8688ED352B4A5142 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5554FF1BCD05289975391ADDC7F37C8F /* RxIGListKit.release.xcconfig */;
 			buildSettings = {
@@ -3164,7 +3164,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 5.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -3241,8 +3241,8 @@
 		2E36244707604B8F627CF047BA194624 /* Build configuration list for PBXNativeTarget "RxIGListKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5B265F2BF712754D48F29330ABA33D35 /* Debug */,
-				D97EFECCDB49CD83500623599C15EA3C /* Release */,
+				8AAA7786656C4D35D21C90A662200246 /* Debug */,
+				E3057D023249C52E8688ED352B4A5142 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

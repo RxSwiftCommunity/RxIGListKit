@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RxIGListKit'
-  s.version          = '2.0.1'
+  s.version          = '2.0.2'
   s.summary          = "A RxSwift wrapper for Instagram IGListKit."
 
   s.description      = <<-DESC
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.tvos.deployment_target = '9.0'
 
-  s.swift_version = '5.0'
+  s.swift_version = '5.1'
 
   s.source_files = 'RxIGListKit/Classes/**/*'
 
