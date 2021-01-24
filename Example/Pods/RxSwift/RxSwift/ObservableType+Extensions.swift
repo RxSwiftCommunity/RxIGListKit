@@ -17,12 +17,11 @@ extension ObservableType {
      - parameter on: Action to invoke for each event in the observable sequence.
      - returns: Subscription object used to unsubscribe from the observable sequence.
      */
-    public func subscribe(_ on: @escaping (Event<Element>) -> Void)
-        -> Disposable {
-            let observer = AnonymousObserver { e in
-                on(e)
-            }
-            return self.asObservable().subscribe(observer)
+    public func subscribe(_ on: @escaping (Event<Element>) -> Void) -> Disposable {
+        let observer = AnonymousObserver { e in
+            on(e)
+        }
+        return self.asObservable().subscribe(observer)
     }
     
     
@@ -83,13 +82,13 @@ extension ObservableType {
     }
 }
 
-import class Foundation.NSRecursiveLock
+import Foundation
 
 extension Hooks {
     public typealias DefaultErrorHandler = (_ subscriptionCallStack: [String], _ error: Error) -> Void
     public typealias CustomCaptureSubscriptionCallstack = () -> [String]
 
-    private static let _lock = RecursiveLock()
+    private static let lock = RecursiveLock()
     private static var _defaultErrorHandler: DefaultErrorHandler = { subscriptionCallStack, error in
         #if DEBUG
             let serializedCallStack = subscriptionCallStack.joined(separator: "\n")
@@ -110,24 +109,20 @@ extension Hooks {
     /// Error handler called in case onError handler wasn't provided.
     public static var defaultErrorHandler: DefaultErrorHandler {
         get {
-            _lock.lock(); defer { _lock.unlock() }
-            return _defaultErrorHandler
+            lock.performLocked { _defaultErrorHandler }
         }
         set {
-            _lock.lock(); defer { _lock.unlock() }
-            _defaultErrorHandler = newValue
+            lock.performLocked { _defaultErrorHandler = newValue }
         }
     }
     
     /// Subscription callstack block to fetch custom callstack information.
     public static var customCaptureSubscriptionCallstack: CustomCaptureSubscriptionCallstack {
         get {
-            _lock.lock(); defer { _lock.unlock() }
-            return _customCaptureSubscriptionCallstack
+            lock.performLocked { _customCaptureSubscriptionCallstack }
         }
         set {
-            _lock.lock(); defer { _lock.unlock() }
-            _customCaptureSubscriptionCallstack = newValue
+            lock.performLocked { _customCaptureSubscriptionCallstack = newValue }
         }
     }
 }

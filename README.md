@@ -1,6 +1,6 @@
 # RxIGListKit
 
-A RxSwift wrapper for Instagram's [IGListKit](https://github.com/Instagram/IGListKit) - A data-driven `UICollectionView` framework for building fast and flexible lists.RxIGListKit bring IGListKit into Reactive world.
+A [RxSwift](https://github.com/ReactiveX/RxSwift) wrapper for Instagram's [IGListKit](https://github.com/Instagram/IGListKit) - A data-driven `UICollectionView` framework for building fast and flexible lists.RxIGListKit bring IGListKit into Reactive world.
 
 [![Build Status](https://travis-ci.org/RxSwiftCommunity/RxIGListKit.svg?branch=master)](https://travis-ci.org/RxSwiftCommunity/RxIGListKit)
 [![Version](https://img.shields.io/cocoapods/v/RxIGListKit.svg?style=flat)](https://cocoapods.org/pods/RxIGListKit)
