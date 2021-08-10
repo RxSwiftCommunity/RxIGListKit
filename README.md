@@ -39,6 +39,20 @@ For [Carthage](https://github.com/Carthage/Carthage), add the following to your 
 github "RxSwiftCommunity/RxIGListKit" "master"
 ```
 
+For [Swift Package Manager](https://swift.org/package-manager/), add the following to your `Package.swift`
+
+```swift
+dependencies: [
+        .package(url: "https://github.com/RxSwiftCommunity/RxIGListKit.git", branch: "master")
+],
+targets: [
+        .target(
+            name: "MyPackage",
+            dependencies: ["RxIGListKit"]
+        )
+]
+```
+
 ## Author
 
 Bruce-pac, Bruce_pac312@foxmail.com
