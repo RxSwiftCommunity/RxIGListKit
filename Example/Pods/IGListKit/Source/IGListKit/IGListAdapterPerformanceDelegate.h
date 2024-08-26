@@ -1,11 +1,11 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class IGListAdapter;
 @class IGListSectionController;
@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- `IGListAdapterPerformanceDelegate` can be used to measure cell dequeue, display, size, and scroll callbacks. 
+ `IGListAdapterPerformanceDelegate` can be used to measure cell dequeue, display, size, and scroll callbacks.
  */
 NS_SWIFT_NAME(ListAdapterPerformanceDelegate)
 @protocol IGListAdapterPerformanceDelegate <NSObject>

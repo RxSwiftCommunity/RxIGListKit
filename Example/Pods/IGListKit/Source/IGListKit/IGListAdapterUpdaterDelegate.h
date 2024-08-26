@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,10 +7,13 @@
 
 #import <UIKit/UIKit.h>
 
+#if !__has_include(<IGListDiffKit/IGListDiffKit.h>)
+#import "IGListBatchUpdateData.h"
+#else
 #import <IGListDiffKit/IGListBatchUpdateData.h>
+#endif
 
 @class IGListAdapterUpdater;
-@class IGListBatchUpdates;
 @class IGListIndexSetResult;
 @protocol IGListDiffable;
 
@@ -23,6 +26,28 @@ NS_SWIFT_NAME(ListAdapterUpdaterDelegate)
 @protocol IGListAdapterUpdaterDelegate <NSObject>
 
 /**
+ Notifies the delegate that the updater is about to beging diffing.
+
+ @param listAdapterUpdater The adapter updater owning the transition.
+ @param fromObjects The items transitioned from in the batch updates, if any.
+ @param toObjects The items transitioned to in the batch updates, if any.
+ */
+- (void)listAdapterUpdater:(IGListAdapterUpdater *)listAdapterUpdater
+       willDiffFromObjects:(nullable NSArray <id<IGListDiffable>> *)fromObjects
+                 toObjects:(nullable NSArray <id<IGListDiffable>> *)toObjects;
+
+/**
+ Notifies the delegate that the updater finished diffing.
+
+ @param listAdapterUpdater The adapter updater owning the transition.
+ @param listIndexSetResults The diffing result of indices to be inserted/removed/updated/moved/etc.
+ @param onBackgroundThread Was the diffing performed on a background thread
+ */
+- (void)listAdapterUpdater:(IGListAdapterUpdater *)listAdapterUpdater
+        didDiffWithResults:(nullable IGListIndexSetResult *)listIndexSetResults
+        onBackgroundThread:(BOOL)onBackgroundThread;
+
+/**
  Notifies the delegate that the updater will call `-[UICollectionView performBatchUpdates:completion:]`.
 
  @param listAdapterUpdater The adapter updater owning the transition.
@@ -30,12 +55,14 @@ NS_SWIFT_NAME(ListAdapterUpdaterDelegate)
  @param fromObjects The items transitioned from in the batch updates, if any.
  @param toObjects The items transitioned to in the batch updates, if any.
  @param listIndexSetResults The diffing result of indices to be inserted/removed/updated/moved/etc.
+ @param animated Is the cell transtion animated
  */
 - (void)               listAdapterUpdater:(IGListAdapterUpdater *)listAdapterUpdater
 willPerformBatchUpdatesWithCollectionView:(UICollectionView *)collectionView
                               fromObjects:(nullable NSArray <id<IGListDiffable>> *)fromObjects
                                 toObjects:(nullable NSArray <id<IGListDiffable>> *)toObjects
-                       listIndexSetResult:(nullable IGListIndexSetResult *)listIndexSetResults;
+                       listIndexSetResult:(nullable IGListIndexSetResult *)listIndexSetResults
+                                 animated:(BOOL)animated;
 
 /**
  Notifies the delegate that the updater successfully finished `-[UICollectionView performBatchUpdates:completion:]`.
@@ -122,16 +149,18 @@ willPerformBatchUpdatesWithCollectionView:(UICollectionView *)collectionView
 
  @param listAdapterUpdater The adapter updater owning the transition.
  @param collectionView The collection view that will be reloaded.
+ @param isFallbackReload The reload was a fallback because we could not performBatchUpdate
  */
-- (void)listAdapterUpdater:(IGListAdapterUpdater *)listAdapterUpdater willReloadDataWithCollectionView:(UICollectionView *)collectionView;
+- (void)listAdapterUpdater:(IGListAdapterUpdater *)listAdapterUpdater willReloadDataWithCollectionView:(UICollectionView *)collectionView isFallbackReload:(BOOL)isFallbackReload;
 
 /**
  Notifies the delegate that the updater successfully called `-[UICollectionView reloadData]`.
 
  @param listAdapterUpdater The adapter updater owning the transition.
  @param collectionView The collection view that reloaded.
+ @param isFallbackReload The reload was a fallback because we could not performBatchUpdate
  */
-- (void)listAdapterUpdater:(IGListAdapterUpdater *)listAdapterUpdater didReloadDataWithCollectionView:(UICollectionView *)collectionView;
+- (void)listAdapterUpdater:(IGListAdapterUpdater *)listAdapterUpdater didReloadDataWithCollectionView:(UICollectionView *)collectionView isFallbackReload:(BOOL)isFallbackReload;
 
 /**
  Notifies the delegate that the collection view threw an exception in `-[UICollectionView performBatchUpdates:completion:]`.
@@ -151,6 +180,14 @@ willPerformBatchUpdatesWithCollectionView:(UICollectionView *)collectionView
                  toObjects:(nullable NSArray *)toObjects
                 diffResult:(IGListIndexSetResult *)diffResult
                    updates:(IGListBatchUpdateData *)updates;
+
+/**
+Notifies the delegate that the updater finished without performing any batch updates or reloads
+
+@param listAdapterUpdater The adapter updater owning the transition.
+@param collectionView The collection view that reloaded.
+*/
+- (void)listAdapterUpdater:(IGListAdapterUpdater *)listAdapterUpdater didFinishWithoutUpdatesWithCollectionView:(nullable UICollectionView *)collectionView;
 
 @end
 

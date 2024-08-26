@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -23,12 +23,12 @@
 
 - (NSArray<NSString *> *)debugDescriptionLines {
     NSMutableArray *debug = [NSMutableArray new];
-#if IGLK_DEBUG_DESCRIPTION_ENABLED
+#if defined(IGLK_DEBUG_DESCRIPTION_ENABLED) && IGLK_DEBUG_DESCRIPTION_ENABLED
     [debug addObject:[NSString stringWithFormat:@"Updater type: %@", NSStringFromClass(self.updater.class)]];
     [debug addObject:[NSString stringWithFormat:@"Data source: %@", self.dataSource]];
     [debug addObject:[NSString stringWithFormat:@"Collection view delegate: %@", self.collectionViewDelegate]];
     [debug addObject:[NSString stringWithFormat:@"Scroll view delegate: %@", self.scrollViewDelegate]];
-    [debug addObject:[NSString stringWithFormat:@"Is in update block: %@", IGListDebugBOOL(self.isInUpdateBlock)]];
+    [debug addObject:[NSString stringWithFormat:@"Is in update block: %@", IGListDebugBOOL(self.isInDataUpdateBlock)]];
     [debug addObject:[NSString stringWithFormat:@"View controller: %@", self.viewController]];
     if (@available(iOS 10.0, tvOS 10, *)) {
         [debug addObject:[NSString stringWithFormat:@"Is prefetching enabled: %@", IGListDebugBOOL(self.collectionView.isPrefetchingEnabled)]];

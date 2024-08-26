@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -9,8 +9,13 @@
 
 #import <unordered_map>
 
+#if !__has_include(<IGListDiffKit/IGListDiffKit.h>)
+#import "IGListAssert.h"
+#else
 #import <IGListDiffKit/IGListAssert.h>
-#import <IGListDiffKit/IGListCompatibility.h>
+#endif
+
+#import "IGListCompatibility.h"
 
 // Plucks the given move from available moves and turns it into a delete + insert
 static void convertMoveToDeleteAndInsert(NSMutableSet<IGListMoveIndex *> *moves,
@@ -33,6 +38,9 @@ static void convertMoveToDeleteAndInsert(NSMutableSet<IGListMoveIndex *> *moves,
                     indexPaths:(NSMutableArray<NSIndexPath *> *)indexPaths
                        deletes:(NSMutableIndexSet *)deletes
                        inserts:(NSMutableIndexSet *)inserts {
+    if (indexPaths.count == 0) {
+        return;
+    }
     for (NSInteger i = indexPaths.count - 1; i >= 0; i--) {
         NSIndexPath *path = indexPaths[i];
         const auto it = map.find(path.section);
@@ -41,23 +49,6 @@ static void convertMoveToDeleteAndInsert(NSMutableSet<IGListMoveIndex *> *moves,
             convertMoveToDeleteAndInsert(moves, it->second, deletes, inserts);
         }
     }
-}
-
-- (instancetype)initWithInsertSections:(NSIndexSet *)insertSections
-                        deleteSections:(NSIndexSet *)deleteSections
-                          moveSections:(NSSet<IGListMoveIndex *> *)moveSections
-                      insertIndexPaths:(NSArray<NSIndexPath *> *)insertIndexPaths
-                      deleteIndexPaths:(NSArray<NSIndexPath *> *)deleteIndexPaths
-                      updateIndexPaths:(NSArray<NSIndexPath *> *)updateIndexPaths
-                        moveIndexPaths:(NSArray<IGListMoveIndexPath *> *)moveIndexPaths {
-    return [self initWithInsertSections:insertSections
-                         deleteSections:deleteSections
-                           moveSections:moveSections
-                       insertIndexPaths:insertIndexPaths
-                       deleteIndexPaths:deleteIndexPaths
-                       updateIndexPaths:updateIndexPaths
-                         moveIndexPaths:moveIndexPaths
-                  fixIndexPathImbalance:NO];
 }
 
 /**
@@ -70,8 +61,7 @@ static void convertMoveToDeleteAndInsert(NSMutableSet<IGListMoveIndex *> *moves,
                       insertIndexPaths:(nonnull NSArray<NSIndexPath *> *)insertIndexPaths
                       deleteIndexPaths:(nonnull NSArray<NSIndexPath *> *)deleteIndexPaths
                       updateIndexPaths:(nonnull NSArray<NSIndexPath *> *)updateIndexPaths
-                        moveIndexPaths:(nonnull NSArray<IGListMoveIndexPath *> *)moveIndexPaths
-                 fixIndexPathImbalance:(BOOL)fixIndexPathImbalance {
+                        moveIndexPaths:(nonnull NSArray<IGListMoveIndexPath *> *)moveIndexPaths {
     IGParameterAssert(insertSections != nil);
     IGParameterAssert(deleteSections != nil);
     IGParameterAssert(moveSections != nil);
@@ -90,8 +80,8 @@ static void convertMoveToDeleteAndInsert(NSMutableSet<IGListMoveIndex *> *moves,
         // convert one of the item changes into a section delete+insert. this will fail hard and be VERY difficult to
         // debug
         const NSInteger moveCount = [moveSections count];
-        std::unordered_map<NSInteger, IGListMoveIndex*> fromMap(moveCount);
-        std::unordered_map<NSInteger, IGListMoveIndex*> toMap(moveCount);
+        std::unordered_map<NSInteger, IGListMoveIndex*> fromMap(MAX(moveCount, 1));
+        std::unordered_map<NSInteger, IGListMoveIndex*> toMap(MAX(moveCount, 1));
         for (IGListMoveIndex *move in moveSections) {
             const NSInteger from = move.from;
             const NSInteger to = move.to;
@@ -109,16 +99,7 @@ static void convertMoveToDeleteAndInsert(NSMutableSet<IGListMoveIndex *> *moves,
         // avoid a flaky UICollectionView bug when deleting from the same index path twice
         // exposes a possible data source inconsistency issue
         NSMutableArray<NSIndexPath *> *mDeleteIndexPaths = [[[NSSet setWithArray:deleteIndexPaths] allObjects] mutableCopy];
-
-        NSMutableArray<NSIndexPath *> *mInsertIndexPaths;
-        if (fixIndexPathImbalance) {
-            // Since we remove duplicate deletes (see above) we also need to remove inserts to keep the same insert/delete
-            // balance. For example, if we reload (insert & delete) the same NSIndexPath twice, we would otherwise end up
-            // with 2 inserts and 1 delete.
-            mInsertIndexPaths = [[[NSSet setWithArray:insertIndexPaths] allObjects] mutableCopy];
-        } else {
-            mInsertIndexPaths = [insertIndexPaths mutableCopy];
-        }
+        NSMutableArray<NSIndexPath *> *mInsertIndexPaths = [insertIndexPaths mutableCopy];
 
         // avoids a bug where a cell is animated twice and one of the snapshot cells is never removed from the hierarchy
         [IGListBatchUpdateData _cleanIndexPathsWithMap:fromMap moves:mMoveSections indexPaths:mDeleteIndexPaths deletes:mDeleteSections inserts:mInsertSections];

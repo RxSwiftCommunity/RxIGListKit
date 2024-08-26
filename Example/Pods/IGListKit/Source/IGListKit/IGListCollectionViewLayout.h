@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,8 +7,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import <IGListDiffKit/IGListExperiments.h>
+#if !__has_include(<IGListDiffKit/IGListDiffKit.h>)
+#import "IGListMacros.h"
+#else
 #import <IGListDiffKit/IGListMacros.h>
+#endif
 
 #import "IGListCollectionViewLayoutCompatible.h"
 
@@ -65,8 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
 
  Interitem spacing applies to items and sections within the same row. Line spacing only applies to items within the same
  section.
- 
- In a horizontally scrolling layout, sections and items are flowed vertically until they need to be "newlined" to the 
+
+ In a horizontally scrolling layout, sections and items are flowed vertically until they need to be "newlined" to the
  next column. Headers, if used, are stretched to the height of the collection view, minus the section insets.
 
  Please see the unit tests for more configuration examples and expected output.
@@ -81,8 +84,8 @@ NS_SWIFT_NAME(ListCollectionViewLayout)
 @property (nonatomic, readonly) UICollectionViewScrollDirection scrollDirection;
 
 /**
- Set this to adjust the offset of the sticky headers in the scrolling direction. Can be used to change the sticky 
- header position as UI like the navigation bar is scrolled offscreen. In a vertically scrolling layout, changing 
+ Set this to adjust the offset of the sticky headers in the scrolling direction. Can be used to change the sticky
+ header position as UI like the navigation bar is scrolled offscreen. In a vertically scrolling layout, changing
  this to the height of the navigation bar will give the effect of the headers sticking to the nav as it is collapsed.
 
  @note Changing the value on this method will invalidate the layout every time.
@@ -93,11 +96,6 @@ NS_SWIFT_NAME(ListCollectionViewLayout)
  Set this to `YES` to show sticky header when a section had no item. Default is `NO`.
 */
 @property (nonatomic, assign) BOOL showHeaderWhenEmpty;
-
-/**
- A bitmask of experiments to conduct on the adapter.
- */
-@property (nonatomic, assign) IGListExperiment experiments;
 
 /**
  Create and return a new collection view layout.
@@ -116,11 +114,11 @@ NS_SWIFT_NAME(ListCollectionViewLayout)
 
 /**
  Create and return a new vertically scrolling collection view layout.
- 
+
  @param stickyHeaders Set to `YES` to stick section headers to the top of the bounds while scrolling.
  @param topContentInset The top content inset used to offset the sticky headers. Ignored if stickyHeaders is `NO`.
  @param stretchToEdge Specifies whether to stretch width of last item to right edge when distance from last item to right edge < epsilon(1)
- 
+
  @return A new collection view layout.
  */
 - (instancetype)initWithStickyHeaders:(BOOL)stickyHeaders

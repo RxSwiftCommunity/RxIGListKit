@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,9 +10,13 @@
 #import <set>
 #import <unordered_set>
 
+#if !__has_include(<IGListDiffKit/IGListDiffKit.h>)
+#import "IGListAssert.h"
+#else
 #import <IGListDiffKit/IGListAssert.h>
-#import <IGListKit/IGListAdapter.h>
-#import <IGListKit/IGListSectionController.h>
+#endif
+#import "IGListAdapter.h"
+#import "IGListSectionController.h"
 
 struct _IGListWorkingRangeHandlerIndexPath {
     NSInteger section;
@@ -117,14 +121,12 @@ typedef std::unordered_set<_IGListWorkingRangeHandlerIndexPath, _IGListWorkingRa
     }
 
     // Build the current set of working range section controllers
-    _IGListWorkingRangeSectionControllerSet workingRangeSectionControllers (visibleSectionSet.size());
+    _IGListWorkingRangeSectionControllerSet workingRangeSectionControllers (MAX(visibleSectionSet.size(), 1));
     for (NSInteger idx = start; idx < end; idx++) {
         id item = [listAdapter objectAtSection:idx];
         IGListSectionController *sectionController = [listAdapter sectionControllerForObject:item];
         workingRangeSectionControllers.insert({sectionController});
     }
-
-    IGAssert(workingRangeSectionControllers.size() < 1000, @"This algorithm is way too slow with so many objects:%lu", workingRangeSectionControllers.size());
 
     // Tell any new section controllers that they have entered the working range
     for (const _IGListWorkingRangeHandlerSectionControllerWrapper &wrapper : workingRangeSectionControllers) {

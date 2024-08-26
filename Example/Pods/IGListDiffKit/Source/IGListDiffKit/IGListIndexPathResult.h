@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <IGListDiffKit/IGListMoveIndexPath.h>
+#import "IGListMoveIndexPath.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -49,7 +49,7 @@ NS_SWIFT_NAME(ListIndexPathResult)
  @param identifier The diff identifier of the object.
 
  @return The index path of the object before the diff, or `nil`.
- 
+
  @see `-[IGListDiffable diffIdentifier]`.
  */
 - (nullable NSIndexPath *)oldIndexPathForIdentifier:(id<NSObject>)identifier;

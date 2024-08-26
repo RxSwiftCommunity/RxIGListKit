@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,8 +7,13 @@
 
 #import <UIKit/UIKit.h>
 
+#if !__has_include(<IGListDiffKit/IGListDiffKit.h>)
+#import "IGListMacros.h"
+#else
 #import <IGListDiffKit/IGListMacros.h>
-#import <IGListKit/IGListSectionController.h>
+#endif
+
+#import "IGListSectionController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,6 +43,7 @@ typedef CGSize (^IGListSingleSectionCellSizeBlock)(id item, id<IGListCollectionC
 /**
  A delegate that can receive selection events on an `IGListSingleSectionController`.
  */
+NS_SWIFT_UI_ACTOR
 NS_SWIFT_NAME(ListSingleSectionControllerDelegate)
 @protocol IGListSingleSectionControllerDelegate <NSObject>
 
@@ -76,13 +82,13 @@ NS_SWIFT_NAME(ListSingleSectionController)
 
 /**
  Creates a new section controller for a given cell type that will always have only one cell when present in a list.
- 
+
  @param cellClass The `UICollectionViewCell` subclass for the single cell.
  @param configureBlock A block that configures the cell with the item given to the section controller.
  @param sizeBlock A block that returns the size for the cell given the collection context.
- 
+
  @return A new section controller.
- 
+
  @warning Be VERY CAREFUL not to create retain cycles by holding strong references to: the object that owns the adapter
  (usually `self`) or the `IGListAdapter`. Pass in locally scoped objects or use `weak` references!
  */
@@ -92,12 +98,12 @@ NS_SWIFT_NAME(ListSingleSectionController)
 
 /**
  Creates a new section controller for a given nib name and bundle that will always have only one cell when present in a list.
- 
+
  @param nibName The name of the nib file for the single cell.
  @param bundle The bundle in which to search for the nib file. If `nil`, this method looks for the file in the main bundle.
  @param configureBlock A block that configures the cell with the item given to the section controller.
  @param sizeBlock A block that returns the size for the cell given the collection context.
- 
+
  @return A new section controller.
 
  @warning Be VERY CAREFUL not to create retain cycles by holding strong references to: the object that owns the adapter
@@ -110,11 +116,11 @@ NS_SWIFT_NAME(ListSingleSectionController)
 
 /**
  Creates a new section controller for a given storyboard cell identifier that will always have only one cell when present in a list.
- 
+
  @param identifier The identifier of the cell prototype in storyboard.
  @param configureBlock A block that configures the cell with the item given to the section controller.
  @param sizeBlock A block that returns the size for the cell given the collection context.
- 
+
  @return A new section controller.
 
  @warning Be VERY CAREFUL not to create retain cycles by holding strong references to: the object that owns the adapter

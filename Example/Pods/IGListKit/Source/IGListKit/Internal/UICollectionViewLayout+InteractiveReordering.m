@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -9,8 +9,8 @@
 
 #import <objc/runtime.h>
 
-#import <IGListKit/IGListAdapterInternal.h>
-#import <IGListKit/IGListSectionController.h>
+#import "IGListAdapterInternal.h"
+#import "IGListSectionController.h"
 
 @implementation UICollectionViewLayout (InteractiveReordering)
 
@@ -24,10 +24,13 @@ static void * kIGListAdapterKey = &kIGListAdapterKey;
 
         // override implementation for targetIndexPathForInteractivelyMovingItem:withPosition:
         SEL userMoveSelector = @selector(targetIndexPathForInteractivelyMovingItem:withPosition:);
-        SEL overrideSelector = @selector(ig_targetIndexPathForInteractivelyMovingItem:withPosition:);
-        Method userLayoutMethod = class_getInstanceMethod(layoutClass, userMoveSelector);
-        Method overrideLayoutMethod = class_getInstanceMethod(layoutClass, overrideSelector);
-        method_exchangeImplementations(userLayoutMethod, overrideLayoutMethod);
+        SEL overrideMoveSelector = @selector(ig_targetIndexPathForInteractivelyMovingItem:withPosition:);
+        Method userMoveMethod = class_getInstanceMethod(layoutClass, userMoveSelector);
+        Method overrideMoveMethod = class_getInstanceMethod(layoutClass, overrideMoveSelector);
+        IMP userMoveIMP = method_getImplementation(userMoveMethod);
+        IMP overrideMoveIMP = method_getImplementation(overrideMoveMethod);
+        class_replaceMethod(layoutClass, overrideMoveSelector, userMoveIMP, method_getTypeEncoding(userMoveMethod));
+        class_replaceMethod(layoutClass, userMoveSelector, overrideMoveIMP, method_getTypeEncoding(overrideMoveMethod));
 
         // override implementation for
         // invalidationContextForInteractivelyMovingItems:withTargetPosition:previousIndexPaths:previousPosition:
@@ -37,7 +40,10 @@ static void * kIGListAdapterKey = &kIGListAdapterKey;
         @selector(ig_invalidationContextForInteractivelyMovingItems:withTargetPosition:previousIndexPaths:previousPosition:);
         Method userInvalidationMethod = class_getInstanceMethod(layoutClass, userInvalidationSelector);
         Method overrideInvalidationMethod = class_getInstanceMethod(layoutClass, overrideInvalidationSelector);
-        method_exchangeImplementations(userInvalidationMethod, overrideInvalidationMethod);
+        IMP userInvalidationIMP = method_getImplementation(userInvalidationMethod);
+        IMP overrideInvalidationIMP = method_getImplementation(overrideInvalidationMethod);
+        class_replaceMethod(layoutClass, overrideInvalidationSelector, userInvalidationIMP, method_getTypeEncoding(userInvalidationMethod));
+        class_replaceMethod(layoutClass, userInvalidationSelector, overrideInvalidationIMP, method_getTypeEncoding(overrideInvalidationMethod));
 
         // override implementation for
         // invalidationContextForInteractivelyMovingItems:withTargetPosition:previousIndexPaths:previousPosition:
@@ -47,7 +53,10 @@ static void * kIGListAdapterKey = &kIGListAdapterKey;
         @selector(ig_invalidationContextForEndingInteractiveMovementOfItemsToFinalIndexPaths:previousIndexPaths:movementCancelled:);
         Method userEndInvalidationMethod = class_getInstanceMethod(layoutClass, userEndInvalidationSelector);
         Method overrideEndInvalidationMethod = class_getInstanceMethod(layoutClass, overrideEndInvalidationSelector);
-        method_exchangeImplementations(userEndInvalidationMethod, overrideEndInvalidationMethod);
+        IMP userEndInvalidationIMP = method_getImplementation(userEndInvalidationMethod);
+        IMP overrideEndInvalidationIMP = method_getImplementation(overrideEndInvalidationMethod);
+        class_replaceMethod(layoutClass, overrideEndInvalidationSelector, userEndInvalidationIMP, method_getTypeEncoding(userEndInvalidationMethod));
+        class_replaceMethod(layoutClass, userEndInvalidationSelector, overrideEndInvalidationIMP, method_getTypeEncoding(overrideEndInvalidationMethod));
     });
 }
 
@@ -70,10 +79,8 @@ static void * kIGListAdapterKey = &kIGListAdapterKey;
     NSIndexPath *updatedTarget = [self updatedTargetForInteractivelyMovingItem:previousIndexPath
                                                                    toIndexPath:originalTarget
                                                                        adapter:adapter];
-    if (updatedTarget) {
-        return updatedTarget;
-    }
-    return originalTarget;
+
+    return updatedTarget ?: originalTarget;
 }
 
 - (nullable NSIndexPath *)updatedTargetForInteractivelyMovingItem:(NSIndexPath *)previousIndexPath
@@ -177,12 +184,9 @@ static void * kIGListAdapterKey = &kIGListAdapterKey;
             }
 
             [modifiedContext invalidateItemsAtIndexPaths:invalidatedItemIndexPaths];
-            [originalContext.invalidatedSupplementaryIndexPaths enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<NSIndexPath *> * _Nonnull obj, BOOL * _Nonnull stop) {
-                [modifiedContext invalidateSupplementaryElementsOfKind:key atIndexPaths:obj];
-            }];
-            [originalContext.invalidatedDecorationIndexPaths enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<NSIndexPath *> * _Nonnull obj, BOOL * _Nonnull stop) {
-                [modifiedContext invalidateDecorationElementsOfKind:key atIndexPaths:obj];
-            }];
+            [self ig_invalidateAccessoryElementsWithSupplementaryIndexPaths:originalContext.invalidatedSupplementaryIndexPaths
+                                                       decorationIndexPaths:originalContext.invalidatedDecorationIndexPaths
+                                                                  inContext:modifiedContext];
             modifiedContext.contentOffsetAdjustment = originalContext.contentOffsetAdjustment;
             modifiedContext.contentSizeAdjustment = originalContext.contentSizeAdjustment;
 
@@ -190,6 +194,17 @@ static void * kIGListAdapterKey = &kIGListAdapterKey;
         }
     }
     return originalContext;
+}
+
+- (void)ig_invalidateAccessoryElementsWithSupplementaryIndexPaths:(NSDictionary<NSString *, NSArray<NSIndexPath *> *> *)supplementaryIndexPaths
+                                             decorationIndexPaths:(NSDictionary<NSString *, NSArray<NSIndexPath *> *> *)decorationIndexPaths
+                                                        inContext:(UICollectionViewLayoutInvalidationContext *)context {
+    [supplementaryIndexPaths enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSArray<NSIndexPath *> *obj, BOOL *stop) {
+        [context invalidateSupplementaryElementsOfKind:key atIndexPaths:obj];
+    }];
+    [decorationIndexPaths enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSArray<NSIndexPath *> *obj, BOOL *stop) {
+        [context invalidateDecorationElementsOfKind:key atIndexPaths:obj];
+    }];
 }
 
 @end

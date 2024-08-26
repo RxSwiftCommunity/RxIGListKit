@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -27,5 +27,13 @@ FOUNDATION_EXTERN void IGListSectionControllerPopThread(void);
  Provides a way for specialized section controllers (like the stacked section controller) to reject invalid moves
  */
 - (BOOL)canMoveItemAtIndex:(NSInteger)sourceItemIndex toIndex:(NSInteger)destinationItemIndex;
+
+- (void)willDisplayCell:(UICollectionViewCell *)cell atIndex:(NSInteger)index listAdapter:(IGListAdapter *)listAdapter;
+
+- (void)didEndDisplayingCell:(UICollectionViewCell *)cell atIndex:(NSInteger)index listAdapter:(IGListAdapter *)listAdapter;
+
+- (void)willDisplaySectionControllerWithListAdapter:(IGListAdapter *)listAdapter;
+
+- (void)didEndDisplayingSectionControllerWithListAdapter:(IGListAdapter *)listAdapter;
 
 @end

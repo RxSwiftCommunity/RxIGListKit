@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -14,7 +14,7 @@
 static NSHashTable<IGListAdapter *> *livingAdaptersTable = nil;
 
 + (void)trackAdapter:(IGListAdapter *)adapter {
-#if IGLK_DEBUG_DESCRIPTION_ENABLED
+#if defined(IGLK_DEBUG_DESCRIPTION_ENABLED) && IGLK_DEBUG_DESCRIPTION_ENABLED
     if (livingAdaptersTable == nil) {
         livingAdaptersTable = [NSHashTable weakObjectsHashTable];
     }

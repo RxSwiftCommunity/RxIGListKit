@@ -1,50 +1,30 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
-#import <QuartzCore/QuartzCore.h>
-
-#import <IGListDiffKit/IGListMoveIndexPath.h>
 
 #import "IGListAdapterUpdater.h"
 #import "IGListBatchUpdateState.h"
-#import "IGListBatchUpdates.h"
+
+@class IGListUpdateTransactionBuilder;
+@protocol IGListUpdateTransactable;
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXTERN void convertReloadToDeleteInsert(NSMutableIndexSet *reloads,
-                                                   NSMutableIndexSet *deletes,
-                                                   NSMutableIndexSet *inserts,
-                                                   IGListIndexSetResult *result,
-                                                   NSArray<id<IGListDiffable>> *fromObjects);
-
 @interface IGListAdapterUpdater ()
 
-@property (nonatomic, copy, nullable) NSArray *fromObjects;
-@property (nonatomic, copy, nullable) IGListToObjectBlock toObjectsBlock;
-@property (nonatomic, copy, nullable) NSArray *pendingTransitionToObjects;
-@property (nonatomic, strong) NSMutableArray<IGListUpdatingCompletion> *completionBlocks;
-
-@property (nonatomic, assign) BOOL queuedUpdateIsAnimated;
-
-@property (nonatomic, strong) IGListBatchUpdates *batchUpdates;
-
-@property (nonatomic, copy, nullable) IGListObjectTransitionBlock objectTransitionBlock;
-
-@property (nonatomic, copy, nullable) IGListReloadUpdateBlock reloadUpdates;
-@property (nonatomic, assign, getter=hasQueuedReloadData) BOOL queuedReloadData;
-
-@property (nonatomic, assign) IGListBatchUpdateState state;
-@property (nonatomic, strong, nullable) IGListBatchUpdateData *applyingUpdateData;
-
-- (void)performReloadDataWithCollectionViewBlock:(IGListCollectionViewBlock)collectionViewBlock;
-- (void)performBatchUpdatesWithCollectionViewBlock:(IGListCollectionViewBlock)collectionViewBlock;
-- (void)cleanStateBeforeUpdates;
 - (BOOL)hasChanges;
+
+/// Force an update to start
+- (void)update;
+
+- (id<IGListUpdateTransactable>)transaction;
+- (IGListUpdateTransactionBuilder *)transactionBuilder;
+- (IGListUpdateTransactionBuilder *)lastTransactionBuilder;
 
 @end
 

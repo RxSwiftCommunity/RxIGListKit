@@ -22,13 +22,13 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/RxSwiftCommunity/RxIGListKit.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '9.0'
-  s.tvos.deployment_target = '9.0'
+  s.ios.deployment_target = '11.0'
+  s.tvos.deployment_target = '11.0'
 
   s.swift_version = '5.1'
 
   s.source_files = 'RxIGListKit/Classes/**/*'
 
   s.dependency 'RxCocoa', '~> 6.0'
-  s.dependency 'IGListKit', '~> 4.0.0'
+  s.dependency 'IGListKit', '~> 5.0.0'
 end

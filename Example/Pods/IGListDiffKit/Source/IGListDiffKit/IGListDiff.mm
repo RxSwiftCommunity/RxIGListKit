@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -11,8 +11,7 @@
 #import <unordered_map>
 #import <vector>
 
-#import <IGListDiffKit/IGListCompatibility.h>
-#import <IGListDiffKit/IGListExperiments.h>
+#import "IGListCompatibility.h"
 
 #import "IGListIndexPathResultInternal.h"
 #import "IGListIndexSetResultInternal.h"
@@ -96,8 +95,7 @@ static id IGListDiffing(BOOL returnIndexPaths,
                         NSInteger toSection,
                         NSArray<id<IGListDiffable>> *oldArray,
                         NSArray<id<IGListDiffable>> *newArray,
-                        IGListDiffOption option,
-                        IGListExperiment experiments) {
+                        IGListDiffOption option) {
     const NSInteger newCount = newArray.count;
     const NSInteger oldCount = oldArray.count;
 
@@ -320,7 +318,7 @@ static id IGListDiffing(BOOL returnIndexPaths,
 IGListIndexSetResult *IGListDiff(NSArray<id<IGListDiffable> > *oldArray,
                                  NSArray<id<IGListDiffable>> *newArray,
                                  IGListDiffOption option) {
-    return IGListDiffing(NO, 0, 0, oldArray, newArray, option, 0);
+    return IGListDiffing(NO, 0, 0, oldArray, newArray, option);
 }
 
 IGListIndexPathResult *IGListDiffPaths(NSInteger fromSection,
@@ -328,21 +326,5 @@ IGListIndexPathResult *IGListDiffPaths(NSInteger fromSection,
                                        NSArray<id<IGListDiffable>> *oldArray,
                                        NSArray<id<IGListDiffable>> *newArray,
                                        IGListDiffOption option) {
-    return IGListDiffing(YES, fromSection, toSection, oldArray, newArray, option, 0);
-}
-
-IGListIndexSetResult *IGListDiffExperiment(NSArray<id<IGListDiffable>> *_Nullable oldArray,
-                                           NSArray<id<IGListDiffable>> *_Nullable newArray,
-                                           IGListDiffOption option,
-                                           IGListExperiment experiments) {
-    return IGListDiffing(NO, 0, 0, oldArray, newArray, option, experiments);
-}
-
-IGListIndexPathResult *IGListDiffPathsExperiment(NSInteger fromSection,
-                                                 NSInteger toSection,
-                                                 NSArray<id<IGListDiffable>> *_Nullable oldArray,
-                                                 NSArray<id<IGListDiffable>> *_Nullable newArray,
-                                                 IGListDiffOption option,
-                                                 IGListExperiment experiments) {
-    return IGListDiffing(YES, fromSection, toSection, oldArray, newArray, option, experiments);
+    return IGListDiffing(YES, fromSection, toSection, oldArray, newArray, option);
 }

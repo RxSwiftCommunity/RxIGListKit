@@ -6,6 +6,8 @@
 //  Copyright © 2020 Krunoslav Zaher. All rights reserved.
 //
 
+import Foundation
+
 // MARK: - Static allocation
 extension InfallibleType {
     /**
@@ -158,7 +160,7 @@ extension InfallibleType {
 
 // MARK: - Distinct
 
-extension InfallibleType where Element: Comparable {
+extension InfallibleType where Element: Equatable {
     /**
      Returns an observable sequence that contains only distinct contiguous elements according to equality operator.
 
@@ -650,7 +652,9 @@ extension InfallibleType {
     /**
      Provides an unretained, safe to use (i.e. not implicitly unwrapped), reference to an object along with the events emitted by the sequence.
      
-     In the case the provided object cannot be retained successfully, the seqeunce will complete.
+     In the case the provided object cannot be retained successfully, the sequence will complete.
+     
+     - note: Be careful when using this operator in a sequence that has a buffer or replay, for example `share(replay: 1)`, as the sharing buffer will also include the provided object, which could potentially cause a retain cycle.
      
      - parameter obj: The object to provide an unretained reference on.
      - parameter resultSelector: A function to combine the unretained referenced on `obj` and the value of the observable sequence.
@@ -666,7 +670,9 @@ extension InfallibleType {
     /**
      Provides an unretained, safe to use (i.e. not implicitly unwrapped), reference to an object along with the events emitted by the sequence.
      
-     In the case the provided object cannot be retained successfully, the seqeunce will complete.
+     In the case the provided object cannot be retained successfully, the sequence will complete.
+     
+     - note: Be careful when using this operator in a sequence that has a buffer or replay, for example `share(replay: 1)`, as the sharing buffer will also include the provided object, which could potentially cause a retain cycle.
      
      - parameter obj: The object to provide an unretained reference on.
      - returns: An observable sequence of tuples that contains both an unretained reference on `obj` and the values of the original sequence.

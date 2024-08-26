@@ -1,11 +1,11 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-#import <IGListKit/IGListSectionController.h>
+#import "IGListSectionController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,9 +22,10 @@ NS_SWIFT_NAME(ListGenericSectionController)
  returned.
 
  @note This object is briefly `nil` between initialization and the first call to `didUpdateToObject:`. After that, it is
- safe to assume that this is non-`nil`.
+ safe to assume that this is non-`nil`. For this reason, we bridge it to Swift as an implicitly-unwrapped Optional, so
+ that idiomatic IGListKit code is not forced to handle nullability with explicit `as!` or `fatalError`.
  */
-@property (nonatomic, strong, nullable, readonly) ObjectType object;
+@property (nonatomic, strong, null_unspecified, readonly) ObjectType object;
 
 /**
  Updates the section controller to a new object.
@@ -33,7 +34,7 @@ NS_SWIFT_NAME(ListGenericSectionController)
 
  @note This `IGListSectionController` subclass sets its object in this method, so any overrides **must call super**.
  */
-- (void)didUpdateToObject:(id)object NS_REQUIRES_SUPER;
+- (void)didUpdateToObject:(ObjectType)object NS_REQUIRES_SUPER;
 
 @end
 

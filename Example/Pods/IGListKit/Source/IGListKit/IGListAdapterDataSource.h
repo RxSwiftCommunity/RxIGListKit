@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,12 @@
 
 #import <UIKit/UIKit.h>
 
+#if !__has_include(<IGListDiffKit/IGListDiffKit.h>)
+#import "IGListDiffable.h"
+#else
 #import <IGListDiffKit/IGListDiffable.h>
+#endif
+
 
 @class IGListAdapter;
 @class IGListSectionController;
@@ -17,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Implement this protocol to provide data to an `IGListAdapter`.
  */
+NS_SWIFT_UI_ACTOR
 NS_SWIFT_NAME(ListAdapterDataSource)
 @protocol IGListAdapterDataSource <NSObject>
 

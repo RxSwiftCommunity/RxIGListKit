@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,20 +7,29 @@
 
 #import "IGListAdapter+UICollectionView.h"
 
+#if !__has_include(<IGListDiffKit/IGListDiffKit.h>)
+#import "IGListAssert.h"
+#else
 #import <IGListDiffKit/IGListAssert.h>
-#import <IGListKit/IGListAdapterInternal.h>
-#import <IGListKit/IGListSectionController.h>
-#import <IGListKit/IGListSectionControllerInternal.h>
+#endif
+#import "IGListAdapterInternal.h"
+#import "IGListSectionController.h"
+#import "IGListSectionControllerInternal.h"
+
+#import "IGListAdapterInternal.h"
 
 @implementation IGListAdapter (UICollectionView)
 
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    _assertNotInMiddleOfObjectUpdate(self.isInObjectUpdateTransaction);
     return self.sectionMap.objects.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    _assertNotInMiddleOfObjectUpdate(self.isInObjectUpdateTransaction);
+
     IGListSectionController * sectionController = [self sectionControllerForSection:section];
     IGAssert(sectionController != nil, @"Nil section controller for section %li for item %@. Check your -diffIdentifier and -isEqual: implementations.",
              (long)section, [self.sectionMap objectForSection:section]);
@@ -41,6 +50,9 @@
     _isDequeuingCell = NO;
 
     IGAssert(cell != nil, @"Returned a nil cell at indexPath <%@> from section controller: <%@>", indexPath, sectionController);
+    if (cell) {
+        IGAssert(cell.reuseIdentifier != nil, @"Returned a cell without a reuseIdentifier at indexPath <%@> from section controller: <%@>", indexPath, sectionController);
+    }
 
     // associate the section controller with the cell so that we know which section controller is using it
     [self mapView:cell toSectionController:sectionController];
@@ -52,7 +64,12 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     IGListSectionController *sectionController = [self sectionControllerForSection:indexPath.section];
     id <IGListSupplementaryViewSource> supplementarySource = [sectionController supplementaryViewSource];
+
+    // flag that a supplementary view is being dequeued in case it tries to access a supplementary view in the process
+    _isDequeuingSupplementaryView = YES;
     UICollectionReusableView *view = [supplementarySource viewForSupplementaryElementOfKind:kind atIndex:indexPath.item];
+    _isDequeuingSupplementaryView = NO;
+
     IGAssert(view != nil, @"Returned a nil supplementary view at indexPath <%@> from section controller: <%@>, supplementary source: <%@>", indexPath, sectionController, supplementarySource);
 
     // associate the section controller with the cell so that we know which section controller is using it
@@ -112,6 +129,16 @@
 }
 
 #pragma mark - UICollectionViewDelegate
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    IGListSectionController * sectionController = [self sectionControllerForSection:indexPath.section];
+    return [sectionController shouldSelectItemAtIndex:indexPath.item];
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+    IGListSectionController * sectionController = [self sectionControllerForSection:indexPath.section];
+    return [sectionController shouldDeselectItemAtIndex:indexPath.item];
+}
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // forward this method to the delegate b/c this implementation will steal the message from the proxy
@@ -173,7 +200,7 @@
         [collectionViewDelegate collectionView:collectionView didEndDisplayingCell:cell forItemAtIndexPath:indexPath];
     }
 
-    IGListSectionController *sectionController = [self sectionControllerForView:cell];
+    IGListSectionController *const sectionController = [self sectionControllerForView:cell];
     [self.displayHandler didEndDisplayingCell:cell forListAdapter:self sectionController:sectionController indexPath:indexPath];
     [self.workingRangeHandler didEndDisplayingItemAtIndexPath:indexPath forListAdapter:self];
 
@@ -193,7 +220,7 @@
     // if the section controller relationship was destroyed, reconnect it
     // this happens with iOS 10 UICollectionView display range changes
     if (sectionController == nil) {
-        sectionController = [self.sectionMap sectionControllerForSection:indexPath.section];
+        sectionController = [self sectionControllerForSection:indexPath.section];
         [self mapView:view toSectionController:sectionController];
     }
 
@@ -238,7 +265,7 @@
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    IGAssert(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
+    IGWarn(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
 
     CGSize size = [self sizeForItemAtIndexPath:indexPath];
     IGAssert(!isnan(size.height), @"IGListAdapter returned NaN height = %f for item at indexPath <%@>", size.height, indexPath);
@@ -248,28 +275,28 @@
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    IGAssert(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
+    IGWarn(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
     return [[self sectionControllerForSection:section] inset];
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    IGAssert(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
+    IGWarn(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
     return [[self sectionControllerForSection:section] minimumLineSpacing];
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    IGAssert(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
+    IGWarn(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
     return [[self sectionControllerForSection:section] minimumInteritemSpacing];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    IGAssert(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
+    IGWarn(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
     return [self sizeForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    IGAssert(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
+    IGWarn(![self.collectionViewDelegate respondsToSelector:_cmd], @"IGListAdapter is consuming method also implemented by the collectionViewDelegate: %@", NSStringFromSelector(_cmd));
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
     return [self sizeForSupplementaryViewOfKind:UICollectionElementKindSectionFooter atIndexPath:indexPath];
 }
@@ -302,6 +329,12 @@
                                                          atIndex:indexPath.item];
     }
     return attributes;
+}
+
+#pragma mark - Assert helpers
+
+static void _assertNotInMiddleOfObjectUpdate(BOOL isInObjectUpdateTransaction) {
+    IGAssert(isInObjectUpdateTransaction == NO, @"The UICollectionView is attempting to update its data while the IGListAdapter is in a middle of updating the object list. This will cause inconsistencies and potentially crashes (which are hard to debug). The most common cause is a section controller tries to access/modify the UICollectionView in -didUpdateToObject.");
 }
 
 @end

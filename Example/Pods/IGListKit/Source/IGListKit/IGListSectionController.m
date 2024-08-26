@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,8 +7,13 @@
 
 #import "IGListSectionControllerInternal.h"
 
+#if !__has_include(<IGListDiffKit/IGListDiffKit.h>)
+#import "IGListAssert.h"
+#import "IGListMacros.h"
+#else
 #import <IGListDiffKit/IGListAssert.h>
 #import <IGListDiffKit/IGListMacros.h>
+#endif
 
 static NSString * const kIGListSectionControllerThreadKey = @"kIGListSectionControllerThreadKey";
 
@@ -80,6 +85,14 @@ void IGListSectionControllerPopThread(void) {
 
 - (void)didUpdateToObject:(id)object {}
 
+- (BOOL)shouldSelectItemAtIndex:(NSInteger)index {
+    return YES;
+}
+
+- (BOOL)shouldDeselectItemAtIndex:(NSInteger)index {
+    return YES;
+}
+
 - (void)didSelectItemAtIndex:(NSInteger)index {}
 
 - (void)didDeselectItemAtIndex:(NSInteger)index {}
@@ -87,7 +100,7 @@ void IGListSectionControllerPopThread(void) {
 - (void)didHighlightItemAtIndex:(NSInteger)index {}
 
 - (void)didUnhighlightItemAtIndex:(NSInteger)index {}
-    
+
 - (BOOL)canMoveItemAtIndex:(NSInteger)index {
     return NO;
 }
@@ -95,9 +108,25 @@ void IGListSectionControllerPopThread(void) {
 - (BOOL)canMoveItemAtIndex:(NSInteger)sourceItemIndex toIndex:(NSInteger)destinationItemIndex {
     return [self canMoveItemAtIndex:sourceItemIndex];
 }
-    
+
 - (void)moveObjectFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex {
     IGFailAssert(@"Section controller %@ must override %s if interactive reordering is enabled.", self, __PRETTY_FUNCTION__);
+}
+
+- (void)willDisplayCell:(UICollectionViewCell *)cell atIndex:(NSInteger)index listAdapter:(IGListAdapter *)listAdapter {
+    [self.displayDelegate listAdapter:listAdapter willDisplaySectionController:self cell:cell atIndex:index];
+}
+
+- (void)didEndDisplayingCell:(UICollectionViewCell *)cell atIndex:(NSInteger)index listAdapter:(IGListAdapter *)listAdapter {
+    [self.displayDelegate listAdapter:listAdapter didEndDisplayingSectionController:self cell:cell atIndex:index];
+}
+
+- (void)willDisplaySectionControllerWithListAdapter:(IGListAdapter *)listAdapter {
+    [self.displayDelegate listAdapter:listAdapter willDisplaySectionController:self];
+}
+
+- (void)didEndDisplayingSectionControllerWithListAdapter:(IGListAdapter *)listAdapter {
+    [self.displayDelegate listAdapter:listAdapter didEndDisplayingSectionController:self];
 }
 
 @end

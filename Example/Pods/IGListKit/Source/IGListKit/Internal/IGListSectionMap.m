@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,11 @@
 
 #import "IGListSectionMap.h"
 
+#if !__has_include(<IGListDiffKit/IGListDiffKit.h>)
+#import "IGListAssert.h"
+#else
 #import <IGListDiffKit/IGListAssert.h>
+#endif
 
 #import "IGListSectionControllerInternal.h"
 
@@ -95,7 +99,9 @@
 }
 
 - (NSInteger)sectionForObject:(id)object {
-    IGParameterAssert(object != nil);
+    if (object == nil) {
+        return NSNotFound;
+    }
 
     id sectionController = [self sectionControllerForObject:object];
     if (sectionController == nil) {

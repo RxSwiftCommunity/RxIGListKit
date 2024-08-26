@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,11 @@
 
 #import "IGListAdapterProxy.h"
 
+#if !__has_include(<IGListDiffKit/IGListDiffKit.h>)
+#import "IGListAssert.h"
+#else
 #import <IGListDiffKit/IGListAssert.h>
+#endif
 
 #import "IGListCollectionViewDelegateLayout.h"
 
@@ -25,7 +29,9 @@ static BOOL isInterceptedSelector(SEL sel) {
             // UICollectionViewDelegate
             sel == @selector(collectionView:willDisplayCell:forItemAtIndexPath:) ||
             sel == @selector(collectionView:didEndDisplayingCell:forItemAtIndexPath:) ||
+            sel == @selector(collectionView:shouldSelectItemAtIndexPath:) ||
             sel == @selector(collectionView:didSelectItemAtIndexPath:) ||
+            sel == @selector(collectionView:shouldDeselectItemAtIndexPath:) ||
             sel == @selector(collectionView:didDeselectItemAtIndexPath:) ||
             sel == @selector(collectionView:didHighlightItemAtIndexPath:) ||
             sel == @selector(collectionView:didUnhighlightItemAtIndexPath:) ||
@@ -36,7 +42,7 @@ static BOOL isInterceptedSelector(SEL sel) {
             sel == @selector(collectionView:layout:minimumLineSpacingForSectionAtIndex:) ||
             sel == @selector(collectionView:layout:referenceSizeForFooterInSection:) ||
             sel == @selector(collectionView:layout:referenceSizeForHeaderInSection:) ||
-            
+
             // IGListCollectionViewDelegateLayout
             sel == @selector(collectionView:layout:customizedInitialLayoutAttributes:atIndexPath:) ||
             sel == @selector(collectionView:layout:customizedFinalLayoutAttributes:atIndexPath:)

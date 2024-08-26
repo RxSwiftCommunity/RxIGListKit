@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,12 +7,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import <IGListKit/IGListCollectionContext.h>
-#import <IGListKit/IGListDisplayDelegate.h>
-#import <IGListKit/IGListScrollDelegate.h>
-#import <IGListKit/IGListSupplementaryViewSource.h>
-#import <IGListKit/IGListTransitionDelegate.h>
-#import <IGListKit/IGListWorkingRangeDelegate.h>
+#import "IGListCollectionContext.h"
+#import "IGListDisplayDelegate.h"
+#import "IGListScrollDelegate.h"
+#import "IGListSupplementaryViewSource.h"
+#import "IGListTransitionDelegate.h"
+#import "IGListWorkingRangeDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,7 +27,7 @@ NS_SWIFT_NAME(ListSectionController)
 
  @return A count of items in the list.
 
- @note The count returned is used to drive the number of cells displayed for this section controller. The default 
+ @note The count returned is used to drive the number of cells displayed for this section controller. The default
  implementation returns 1. **Calling super is not required.**
  */
 - (NSInteger)numberOfItems;
@@ -57,7 +57,7 @@ NS_SWIFT_NAME(ListSectionController)
  will be used on screen. You should never allocate new cells in this method, instead use the provided adapter to call
  one of the dequeue methods on the IGListCollectionContext. The default implementation will assert. **You must override
  this method without calling super.**
- 
+
  @warning Don't call this method to obtain a reference to currently dequeued cells: a new cell will be dequeued
  and returned, rather than the existing cell that you may have intended to retrieve. Instead, you can call
  `-cellForItemAtIndex:sectionController:` on `IGListCollectionContext` to obtain active cell references.
@@ -74,6 +74,24 @@ NS_SWIFT_NAME(ListSectionController)
  object. **Calling super is not required.**
  */
 - (void)didUpdateToObject:(id)object;
+
+/**
+ Asks the section controller if the cell at the specified index path should be selected
+
+ @param index The index of cell to be selected.
+
+ @note The default implementation returns YES. **Calling super is not required.**
+ */
+- (BOOL)shouldSelectItemAtIndex:(NSInteger)index;
+
+/**
+ Asks the section controller if the cell at the specified index path should be deselected
+
+ @param index The index of cell to be deselected.
+
+ @note The default implementation returns YES. **Calling super is not required.**
+ */
+- (BOOL)shouldDeselectItemAtIndex:(NSInteger)index;
 
 /**
  Tells the section controller that the cell at the specified index path was selected.
@@ -110,14 +128,14 @@ NS_SWIFT_NAME(ListSectionController)
  @note The default implementation does nothing. **Calling super is not required.**
  */
 - (void)didUnhighlightItemAtIndex:(NSInteger)index;
-    
+
 /**
  Identifies whether an object can be moved through interactive reordering.
- 
+
  @param index The index of the object in the list.
 
  @return `YES` if the object is allowed to move, otherwise `NO`.
- 
+
  @note Interactive reordering is supported both for items within a single section, as well as for reordering sections
  themselves when sections contain only one item. The default implementation returns false.
  */
@@ -125,30 +143,35 @@ NS_SWIFT_NAME(ListSectionController)
 
 /**
  Notifies the section that a list object should move within a section as the result of interactive reordering.
- 
+
  @param sourceIndex The starting index of the object.
  @param destinationIndex The ending index of the object.
- 
+
  @note this method must be implemented if interactive reordering is enabled.
  */
 - (void)moveObjectFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex NS_AVAILABLE_IOS(9_0);
-    
+
 /**
  The view controller housing the adapter that created this section controller.
 
- @note Use this view controller to push, pop, present, or do other custom transitions. 
- 
- @warning It is considered very bad practice to cast this to a known view controller 
+ @note Use this view controller to push, pop, present, or do other custom transitions.
+
+ @warning It is considered very bad practice to cast this to a known view controller
  and call methods on it other than for navigations and transitions.
  */
 @property (nonatomic, weak, nullable, readonly) UIViewController *viewController;
 
 /**
- A context object for interacting with the collection. 
- 
+ A context object for interacting with the collection.
+
  Use this property for accessing the collection size, dequeuing cells, reloading, inserting, deleting, etc.
+
+ @note When created outside of `-listAdapter:sectionControllerForObject:`, this object is temporarily `nil`
+ after initialization. We bridge it to Swift as an implicitly-unwrapped Optional, so that idiomatic IGListKit
+ code is not forced to handle nullability with explicit `as!` or `fatalError`, as using a non-`nil` instance
+ of this object is essential for dequeueing cells.
  */
-@property (nonatomic, weak, nullable, readonly) id <IGListCollectionContext> collectionContext;
+@property (nonatomic, weak, null_unspecified, readonly) id <IGListCollectionContext> collectionContext;
 
 /**
  Returns the section within the list for this section controller.

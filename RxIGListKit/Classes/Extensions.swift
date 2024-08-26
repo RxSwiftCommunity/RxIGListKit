@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import protocol IGListDiffKit.ListDiffable
 
 extension NSString: SectionModelType {}
 

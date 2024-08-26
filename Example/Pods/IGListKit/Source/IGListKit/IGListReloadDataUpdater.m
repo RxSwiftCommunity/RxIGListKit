@@ -1,13 +1,15 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-#import <IGListKit/IGListReloadDataUpdater.h>
+#import "IGListReloadDataUpdater.h"
 
-@implementation IGListReloadDataUpdater
+@implementation IGListReloadDataUpdater {
+    BOOL _isInDataUpdateBlock;
+}
 
 #pragma mark - IGListUpdatingDelegate
 
@@ -16,14 +18,15 @@
 }
 
 - (void)performUpdateWithCollectionViewBlock:(IGListCollectionViewBlock)collectionViewBlock
-                            fromObjects:(NSArray *)fromObjects
-                         toObjectsBlock:(IGListToObjectBlock)toObjectsBlock
-                               animated:(BOOL)animated
-                  objectTransitionBlock:(IGListObjectTransitionBlock)objectTransitionBlock
-                             completion:(IGListUpdatingCompletion)completion {
-    if (toObjectsBlock != nil) {
-        NSArray *toObjects = toObjectsBlock() ?: @[];
-        objectTransitionBlock(toObjects);
+                                    animated:(BOOL)animated
+                            sectionDataBlock:(IGListTransitionDataBlock)sectionDataBlock
+                       applySectionDataBlock:(IGListTransitionDataApplyBlock)applySectionDataBlock
+                                  completion:(nullable IGListUpdatingCompletion)completion {
+    IGListTransitionData *sectionData = sectionDataBlock ? sectionDataBlock() : nil;
+    if (sectionData != nil && applySectionDataBlock != nil) {
+        _isInDataUpdateBlock = YES;
+        applySectionDataBlock(sectionData);
+        _isInDataUpdateBlock = NO;
     }
     [self _synchronousReloadDataWithCollectionView:collectionViewBlock()];
     if (completion) {
@@ -36,6 +39,20 @@
                             itemUpdates:(IGListItemUpdateBlock)itemUpdates
                              completion:(IGListUpdatingCompletion)completion {
     itemUpdates();
+    [self _synchronousReloadDataWithCollectionView:collectionViewBlock()];
+    if (completion) {
+        completion(YES);
+    }
+}
+
+- (void)performDataSourceChange:(IGListDataSourceChangeBlock)block {
+    // A `UICollectionView` dataSource change will automatically invalidate
+    // its data, so no need to do anything else.
+    block();
+}
+
+- (void)reloadDataWithCollectionViewBlock:(IGListCollectionViewBlock)collectionViewBlock reloadUpdateBlock:(IGListReloadUpdateBlock)reloadUpdateBlock completion:(IGListUpdatingCompletion)completion {
+    reloadUpdateBlock();
     [self _synchronousReloadDataWithCollectionView:collectionViewBlock()];
     if (completion) {
         completion(YES);
@@ -62,14 +79,6 @@
     [self _synchronousReloadDataWithCollectionView:collectionView];
 }
 
-- (void)reloadDataWithCollectionViewBlock:(IGListCollectionViewBlock)collectionViewBlock reloadUpdateBlock:(IGListReloadUpdateBlock)reloadUpdateBlock completion:(IGListUpdatingCompletion)completion {
-    reloadUpdateBlock();
-    [self _synchronousReloadDataWithCollectionView:collectionViewBlock()];
-    if (completion) {
-        completion(YES);
-    }
-}
-
 - (void)reloadCollectionView:(UICollectionView *)collectionView sections:(NSIndexSet *)sections {
     [self _synchronousReloadDataWithCollectionView:collectionView];
 }
@@ -77,6 +86,10 @@
 - (void)_synchronousReloadDataWithCollectionView:(UICollectionView *)collectionView {
     [collectionView reloadData];
     [collectionView layoutIfNeeded];
+}
+
+- (BOOL)isInDataUpdateBlock {
+    return _isInDataUpdateBlock;
 }
 
 @end
