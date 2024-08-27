@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import protocol IGListKit.ListCollectionContext
 import protocol IGListDiffKit.ListDiffable
 

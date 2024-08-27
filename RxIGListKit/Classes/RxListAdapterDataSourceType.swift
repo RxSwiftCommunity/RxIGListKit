@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import IGListKit.IGListAdapter
+import IGListKit
 import RxSwift
 
 public protocol RxListAdapterDataSourceType: AnyObject {
